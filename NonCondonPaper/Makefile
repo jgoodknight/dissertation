@@ -4,7 +4,7 @@ blddir = _build
 all: $(name).pdf
 
 %.pdf: %.tex | $(blddir)
-	@latexmk -halt-on-error -pdf -jobname=$(blddir)/$* $<
+	@latexmk -halt-on-error -f -pdf -pvc -jobname=$(blddir)/$* $<
 	@mv $(blddir)/$@ .
 
 $(blddir):
@@ -19,3 +19,9 @@ view:
 clear:
 	rm -r $(blddir)
 	rm $(name).pdf
+
+remake:
+	rm -r $(blddir)
+	rm $(name).pdf
+	$(name).pdf
+	open -a Skim $(name).pdf
