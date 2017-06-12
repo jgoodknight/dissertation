@@ -25,11 +25,16 @@ or as a vibrational matrix element,
 \begin{align}
 	\mu_{a,b} = \bra{a_{\gamma}} \mu(x) \ket{b_{\gamma}}
 \end{align}
-which in a simple linear variation setting would be,
+Going forward, we will use the a notation of $(\{i\})$ to indicate the polynomial orders of $x$ we included.  In a simple linear variation setting would be,
 \begin{align}
-	\mu_{a,b} = \mu_0 \left[ \delta_{a,b} + c \left( \sqrt{b-1}\delta_{a,b-1} + \sqrt{b}\delta_{a,b+1}\right) \right]
+	\mu^{(1)}_{a,b} = \mu_0 \left[ \delta_{a,b} + c \left( \sqrt{b-1}\delta_{a,b-1} + \sqrt{b}\delta_{a,b+1}\right) \right]
 \end{align}
+but for a cubic variation would be,
+\begin{align*}
+	\mu^{(3)}_{0,\lambda} =& \mu_0 \left( \delta_{0,\lambda}  + c_3   \left(2\delta_{1,\lambda}  +\sqrt{6}\delta_{3,\lambda} \right)\right)
+\end{align*}
 
+Because higher-polynomial orders cascade down (meaning that $\left( \hat{a} + \hat{a}^{\dagger}\right)^3$ and )
 
 \section{Effects on Linear Absorption Spectroscopy}
 The change in transition dipole moment from the Condon approximation will not affect the frequency of the transitions in our model, so instead we look only at peak heights: specifically the absorptivity normalized to the frequency squared
@@ -40,7 +45,6 @@ The change in transition dipole moment from the Condon approximation will not af
 where $f_{L}$ is a line-shape function which integrates to unity, sigma $\sigma$ is the width parameter(s) for the line-shape.  Finally and most importantly, $h_{\eta,i}$ and $\Delta\omega_{\eta,i}$ are the strength and frequency, respectively, of the transition from the ground vibrational state $\eta$ to the excited vibrational state $i$.
 
 
-% (Al\'an I changed your wording below, just because I didn't feel comfortable saying 'researchers often compare' when Alex is pretty sure they don't do it at all, so despite the fact I think we can say often, because Alex doesn't I thought we ought to use different wording.  Let me know what you think.)
 Normally a researcher can compare the $k$th and $k+1$th transition strengths to ascertain the Huang Rhys Parameter $S$:
 \begin{align}
 	\frac{h_{\eta,k+1}}{h_{\eta,k}} &=  \frac{\sum_{\lambda,\nu} \mu_{\eta,\lambda}^*\mu_{\eta,\nu}   O_{\lambda}^{k+1} O_{\nu}^{k+1} }{\sum_{l,n} \mu_{\eta,l}^*\mu_{\eta,n}   O_{l}^{k} O_{n}^{k} } = H(\eta,k)
@@ -96,7 +100,7 @@ We fit Equation \ref{eqn:KDef} to the addition of 5 Voigt line-shape for the Tol
  \hline
 \end{tabular}
 \caption{ Fit of the calculated peak heights to a Morse potential model.  Because of the small value of $\chi_e \omega_e$ relative to $\omega_e$, we conclude that the harmonic approximation is reasonable for this system.}
-% [Al\'an, I couldn't find the specific package you were talking about but I think I got the right formatting based off of a PRL I found.  Let me know!] 
+% [Al\'an, I couldn't find the specific package you were talking about but I think I got the right formatting based off of a PRL I found.  Let me know!]
 \label{table:energyFit}
 \end{table}
 
