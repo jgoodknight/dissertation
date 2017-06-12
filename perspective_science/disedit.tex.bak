@@ -1,0 +1,13 @@
+\chapter{Getting Down to the Heart of Matter}\label{ch:sciencePerspective}
+\thispagestyle{plain}
+\vspace{-.5cm}
+
+\noindent Apart from minor modifications, this chapter originally appeared as:\newline\\
+\ssp ``Getting Down to the Heart of Matter''.
+Goodknigh, Joseph and Aspuru-Guzik Alan, Science (In Press)
+
+\section*{Abstract}
+    \dsp
+    \input{perspective_science/abstract.tex}
+
+\input{perspective_science/text.tex}

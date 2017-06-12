@@ -1,0 +1,336 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     10639,        327]
+NotebookOptionsPosition[     10088,        302]
+NotebookOutlinePosition[     10441,        318]
+CellTagsIndexPosition[     10398,        315]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"FullSimplify", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Abs", "[", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"FourierTransform", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Exp", "[", 
+           RowBox[{
+            RowBox[{"-", "\[ImaginaryI]"}], " ", "\[Omega]C", " ", 
+            RowBox[{"(", 
+             RowBox[{"t", " ", "-", " ", "T"}], ")"}]}], "]"}], 
+          RowBox[{"Exp", "[", 
+           RowBox[{
+            RowBox[{"-", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"t", "-", "T"}], ")"}], "^", "2"}]}], " ", "/", " ", 
+            RowBox[{"(", 
+             RowBox[{"2", " ", 
+              RowBox[{"\[Sigma]", "^", "2"}]}], ")"}]}], "]"}]}], ",", " ", 
+         "t", ",", " ", "\[Omega]01"}], "]"}], "  ", "+", " ", 
+       RowBox[{"FourierTransform", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Exp", "[", 
+           RowBox[{"\[ImaginaryI]", " ", "\[Omega]C", " ", 
+            RowBox[{"(", 
+             RowBox[{"t", " ", "-", " ", "T"}], ")"}]}], "]"}], 
+          RowBox[{"Exp", "[", 
+           RowBox[{
+            RowBox[{"-", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"t", "-", "T"}], ")"}], "^", "2"}]}], " ", "/", " ", 
+            RowBox[{"(", 
+             RowBox[{"2", " ", 
+              RowBox[{"\[Sigma]", "^", "2"}]}], ")"}]}], "]"}]}], ",", " ", 
+         "t", ",", " ", "\[Omega]01"}], "]"}]}], " ", ")"}], "]"}], "/", 
+    RowBox[{"Abs", "[", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"FourierTransform", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Exp", "[", 
+           RowBox[{
+            RowBox[{"-", "\[ImaginaryI]"}], " ", "\[Omega]C", " ", 
+            RowBox[{"(", 
+             RowBox[{"t", " ", "-", " ", "T"}], ")"}]}], "]"}], 
+          RowBox[{"Exp", "[", 
+           RowBox[{
+            RowBox[{"-", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"t", "-", "T"}], ")"}], "^", "2"}]}], " ", "/", " ", 
+            RowBox[{"(", 
+             RowBox[{"2", " ", 
+              RowBox[{"\[Sigma]", "^", "2"}]}], ")"}]}], "]"}]}], ",", " ", 
+         "t", ",", " ", "\[Omega]00"}], "]"}], "  ", "+", " ", 
+       RowBox[{"FourierTransform", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Exp", "[", 
+           RowBox[{"\[ImaginaryI]", " ", "\[Omega]C", " ", 
+            RowBox[{"(", 
+             RowBox[{"t", " ", "-", " ", "T"}], ")"}]}], "]"}], 
+          RowBox[{"Exp", "[", 
+           RowBox[{
+            RowBox[{"-", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"t", "-", "T"}], ")"}], "^", "2"}]}], " ", "/", " ", 
+            RowBox[{"(", 
+             RowBox[{"2", " ", 
+              RowBox[{"\[Sigma]", "^", "2"}]}], ")"}]}], "]"}]}], ",", " ", 
+         "t", ",", " ", "\[Omega]00"}], "]"}]}], " ", ")"}], "]"}]}], "/.", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\[Omega]00", "->", "\[Omega]C"}], ",", " ", 
+     RowBox[{"Assumptions", " ", "\[Rule]", " ", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"\[Omega]C", "\[Element]", " ", "Reals"}], ",", 
+        RowBox[{"T", " ", "\[Element]", " ", "Reals"}], ",", 
+        RowBox[{"\[Omega]01", " ", "\[Element]", " ", "Reals"}]}], " ", 
+       "}"}]}]}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.696793135837906*^9, 3.696793257949904*^9}, {
+  3.696793296430407*^9, 3.6967933333074217`*^9}, {3.696793364377347*^9, 
+  3.69679343488*^9}, {3.6967983948754168`*^9, 3.696798403340735*^9}, {
+  3.696798544611575*^9, 3.6967985976885*^9}}],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{"Im", "[", 
+     RowBox[{"T", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "\[Omega]01"}], "+", "\[Omega]C"}], ")"}]}], "]"}]], " ", 
+   RowBox[{"Abs", "[", 
+    RowBox[{
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox["1", "2"]}], " ", 
+       SuperscriptBox["\[Sigma]", "2"], " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"\[Omega]01", "-", "\[Omega]C"}], ")"}], "2"]}]], "+", 
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox["1", "2"]}], " ", 
+       SuperscriptBox["\[Sigma]", "2"], " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"\[Omega]01", "+", "\[Omega]C"}], ")"}], "2"]}]]}], "]"}]}], 
+  
+  RowBox[{"Abs", "[", 
+   RowBox[{"1", "+", 
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{
+      RowBox[{"-", "2"}], " ", 
+      SuperscriptBox["\[Sigma]", "2"], " ", 
+      SuperscriptBox["\[Omega]C", "2"]}]]}], "]"}]]], "Output",
+ CellChangeTimes->{{3.696793164406906*^9, 3.696793217175218*^9}, {
+   3.6967932692686*^9, 3.69679327361057*^9}, 3.696793334694026*^9, {
+   3.696793384119504*^9, 3.696793435410757*^9}, 3.6967984079887743`*^9, {
+   3.6967985781439457`*^9, 3.6967985999050827`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FullSimplify", "[", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"FourierTransform", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Exp", "[", 
+        RowBox[{
+         RowBox[{"-", "\[ImaginaryI]"}], " ", "\[Omega]C", " ", 
+         RowBox[{"(", 
+          RowBox[{"t", " ", "-", " ", "T"}], ")"}]}], "]"}], 
+       RowBox[{"Exp", "[", 
+        RowBox[{
+         RowBox[{"-", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"t", "-", "T"}], ")"}], "^", "2"}]}], " ", "/", " ", 
+         RowBox[{"(", 
+          RowBox[{"2", " ", 
+           RowBox[{"\[Sigma]", "^", "2"}]}], ")"}]}], "]"}]}], ",", " ", "t", 
+      ",", " ", "\[Omega]01"}], "]"}], "  ", "+", " ", 
+    RowBox[{"FourierTransform", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Exp", "[", 
+        RowBox[{"\[ImaginaryI]", " ", "\[Omega]C", " ", 
+         RowBox[{"(", 
+          RowBox[{"t", " ", "-", " ", "T"}], ")"}]}], "]"}], 
+       RowBox[{"Exp", "[", 
+        RowBox[{
+         RowBox[{"-", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"t", "-", "T"}], ")"}], "^", "2"}]}], " ", "/", " ", 
+         RowBox[{"(", 
+          RowBox[{"2", " ", 
+           RowBox[{"\[Sigma]", "^", "2"}]}], ")"}]}], "]"}]}], ",", " ", "t", 
+      ",", " ", "\[Omega]01"}], "]"}]}], " ", ")"}], "]"}]], "Input",
+ CellChangeTimes->{3.696793463812516*^9}],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{"\[ImaginaryI]", " ", "T", " ", "\[Omega]01"}]], " ", 
+   RowBox[{"(", 
+    RowBox[{
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox["1", "2"]}], " ", 
+       SuperscriptBox["\[Sigma]", "2"], " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"\[Omega]01", "-", "\[Omega]C"}], ")"}], "2"]}]], "+", 
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox["1", "2"]}], " ", 
+       SuperscriptBox["\[Sigma]", "2"], " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"\[Omega]01", "+", "\[Omega]C"}], ")"}], "2"]}]]}], ")"}]}], 
+  
+  SqrtBox[
+   FractionBox["1", 
+    SuperscriptBox["\[Sigma]", "2"]]]]], "Output",
+ CellChangeTimes->{3.696793464845998*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"Abs", "[", 
+    RowBox[{"(", 
+     RowBox[{"FourierTransform", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Exp", "[", 
+         RowBox[{
+          RowBox[{"-", "\[ImaginaryI]"}], " ", "\[Omega]C", " ", 
+          RowBox[{"(", 
+           RowBox[{"t", " ", "-", " ", "T"}], ")"}]}], "]"}], 
+        RowBox[{"Exp", "[", 
+         RowBox[{
+          RowBox[{"-", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"t", "-", "T"}], ")"}], "^", "2"}]}], " ", "/", " ", 
+          RowBox[{"(", 
+           RowBox[{"2", " ", 
+            RowBox[{"\[Sigma]", "^", "2"}]}], ")"}]}], "]"}]}], ",", " ", "t",
+        ",", " ", "\[Omega]01"}], "]"}], "   ", ")"}], "]"}], "/", 
+   RowBox[{"Abs", "[", " ", 
+    RowBox[{"(", 
+     RowBox[{"FourierTransform", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Exp", "[", 
+         RowBox[{
+          RowBox[{"-", "\[ImaginaryI]"}], " ", "\[Omega]C", " ", 
+          RowBox[{"(", 
+           RowBox[{"t", " ", "-", " ", "T"}], ")"}]}], "]"}], 
+        RowBox[{"Exp", "[", 
+         RowBox[{
+          RowBox[{"-", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"t", "-", "T"}], ")"}], "^", "2"}]}], " ", "/", " ", 
+          RowBox[{"(", 
+           RowBox[{"2", " ", 
+            RowBox[{"\[Sigma]", "^", "2"}]}], ")"}]}], "]"}]}], ",", " ", "t",
+        ",", " ", "\[Omega]00"}], "]"}], "  ", ")"}], "]"}]}], "/.", 
+  RowBox[{"{", 
+   RowBox[{"\[Omega]00", "->", "\[Omega]C"}], "}"}]}]], "Input",
+ CellChangeTimes->{{3.696793495063602*^9, 3.696793516342698*^9}, {
+  3.696793661212409*^9, 3.6967936687659903`*^9}}],
+
+Cell[BoxData[
+ SuperscriptBox["\[ExponentialE]", 
+  RowBox[{
+   RowBox[{"-", 
+    RowBox[{"Im", "[", 
+     RowBox[{"T", " ", "\[Omega]01"}], "]"}]}], "+", 
+   RowBox[{"Im", "[", 
+    RowBox[{"T", " ", "\[Omega]C"}], "]"}], "-", 
+   RowBox[{
+    FractionBox["1", "2"], " ", 
+    RowBox[{"Re", "[", 
+     RowBox[{
+      SuperscriptBox["\[Sigma]", "2"], " ", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"\[Omega]01", "-", "\[Omega]C"}], ")"}], "2"]}], 
+     "]"}]}]}]]], "Output",
+ CellChangeTimes->{{3.696793499597837*^9, 3.696793516911428*^9}, 
+   3.6967936693663397`*^9}]
+}, Open  ]]
+},
+WindowSize->{808, 855},
+WindowMargins->{{4, Automatic}, {Automatic, 0}},
+FrontEndVersion->"10.1 for Mac OS X x86 (32-bit, 64-bit Kernel) (March 23, \
+2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 3589, 93, 114, "Input"],
+Cell[4172, 117, 1346, 38, 75, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5555, 160, 1373, 39, 63, "Input"],
+Cell[6931, 201, 865, 27, 93, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7833, 233, 1649, 46, 63, "Input"],
+Cell[9485, 281, 587, 18, 39, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

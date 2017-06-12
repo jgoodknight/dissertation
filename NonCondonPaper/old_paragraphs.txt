@@ -1,0 +1,21 @@
+This is important because of the interest in biological electronic quantum coherneces started in 2007 by Engel et all \cite{FMO1} and continued by many others\cite{Fidler2013,mech1,mech2,mech3,mech4,energyTransfer,Panitchayangkoon2011}.  The problem, however, with that previous work was its ambiguity towards whether the oscillations were due to novel electronic coherences or rather more pedestrian vibrational coherences.  Checking the temperature dependence was proposed in \cite{Perlik2014} but that is often impractical.  Performing Quantum Process Tomography could work, but it often requires more control over parameters than some laser systems are capable of\cite{QPT1,QPT2}.  The advantage the experiment in \cite{witness} has is that it only requires changing the pulse width.
+% There's a problem when I cite: FMO2 fix it!
+
+This experiment, however, has a few problems.  Primarily, the fact that perfectly impulsive laser pulses are, as yet, unattainable with current equipment.  While we wait for laser pulses to get to infinite energy, the original propsoal by Yuen-Zhou suggested performing a series of pump probe experiments at increasingly narrow pulse widths.  Johnson et al\cite{allanWitness} showed that this procedure worked well: when the amplitude of a studied system's pump-probe oscillations increase, approaching a non-zero value as the laser pulses used approach impulsive, it implies the existence of electronic coherence in the system.  If, however, the amplitudes go to zero as the laser pulses get closer to impulsive, then a the system only contains vibrational coherences..
+
+While Johnson may have proved that the experiment Yuen-Zhou proposed will work with laser pulses that modern experimental equipment can actually produce, there has not yet been a treatment of the effect of variations in the transition dipole with respect to nuclear coordinate: called the Condon approximation after its progenitor Edward Condon\cite{Condon}.  Such a variation would effectively mean that the strength of the molecule as an emitter and absorber would vary as the molecule's vibrational state varies which could induce oscillations in dyanmical spectra such as pump probe, transient grating or 2D electronic.
+
+What effect, then, would a basic variation in the transition dipole have on a pump-probe experiment and, more to the point, will a variation such as this cause an oscillation in a pump probe spectra taken at the impulsive limit?  We take it upon ourselves to investigate.
+
+
+\section{Non-Condonicity in Nature}
+A fair question to ask would be: what kind of values of $\kappa$ would one expect to see in nature.  Reference \cite{photosyntheticKappa} predicted a $\kappa$ value of about 0.3 on a mode with a Huang-Rhys parameter of roughly 0.8, which is very close to our \ref{fig:detunedSmallGround} and \ref{fig:detunedSmallExcited} in the regime where the proposed experiment completely breaks without even a dip in signal before the .  Admittedly this was only on one mode, but without rigorous theory like they employed in the paper, it would be impossible to even guess whether a node had a transition dipole variation or not.
+
+For another data-point of natural transition dipole variation, we calculated\cite{turbomolSoftware,Rappaport2005} the first order taylor expansion of the diatomic Iodine transition dipole, using density functional theory \cite{dft} from the ground state to the optically accessible BLANK state, using a DEF2-TZVP basis\cite{dftBasis} and the PBE0 functional\cite{dftFunctional}, which give (in atomic units):
+\begin{align}
+	\mu_{g \leftarrow e} &\approx -0.132477 - 0.04555 (x - \bar{x}_e )\\
+	&\approx \mu_0 \left[ 1 + 0.3438(x - \bar{x}_e ) \right]\\
+	\mu_{e \leftarrow g} &\approx -0.165270 - 0.0548235 (x - \bar{x}_g) \\
+	&\approx \mu_0 \left[ 1 + 0.3317(x - \bar{x}_g ) \right]
+\end{align}
+or a $\kappa$ value of roughly .3 in both cases.  The Huang-Rhys paramter of Iodine is, however, quite large at 24.6 and dynamic spectroscopy results for it would not terribly applicable to determining whether there is electronic coherence in photosynthetic systems.

@@ -1,39 +1,60 @@
+\textbf{Revised \today , at \currenttime}
+
 \section{Introduction}
-One normally surmises the presence of electronic coherence through the identification of oscillations in pump probe or 2D Electronic Spectroscopy but vibrational structure can also cause oscillations in those kinds of spectra.  Yuen-Zhou, et al\cite{witness}  in 2011 proposed a novel way of isolating electronic coherences in a system which also had vibrational structure: a pump probe spectrum performed with an impulsive laser pulse (or one sufficiently close to impulsive) will exhibit no oscillations if the system only has a vibrational coherence but will have oscillations if there is an electronic coherence.  Thus this experiment, when performed would act as a witness--a yes or a no--for the existence of electronic coherence in a system which also have vibrational structure.
 
-This is important because of the interest in biological electronic quantum coherneces started in 2007 by Engel et all \cite{FMO1} and continued by many others\cite{Fidler2013,mech1,mech2,mech3,mech4,energyTransfer,Panitchayangkoon2011}.  The problem, however, with that previous work was its ambiguity towards whether the oscillations were due to novel electronic coherences or rather more pedestrian vibrational coherences.  Checking the temperature dependence was proposed in \cite{Perlik2014} but that is often impractical.  Performing Quantum Process Tomography could work, but it often requires more control over parameters than some laser systems are capable of\cite{QPT1,QPT2}.  The advantage the experiment in \cite{witness} has is that it only requires changing the pulse width.
-% There's a problem when I cite: FMO2 fix it!
+As a topic that is so important to life on Earth, biological light-harvesting systems have been a topic of interest for a long time ~\cite{Blankenship2002}.   Ever since the discovery of long-lived oscillations ($\approx$600 fs) in cross peaks of the two-dimensional electronic spectrum of the Fenna-Matthews-Olsen complex~\cite{FMO1}, interest surged because the observed oscillations could mean that photosynthetic chlorophylls were keeping a stable superposition of electronic-excited-states for much longer than a chaotic biological environment should be able to allow ~\cite{FMO2,Lambert2012}.
 
-This experiment, however, has a few problems.  Primarily, the fact that perfectly impulsive laser pulses are, as yet, unattainable with current equipment.  While we wait for laser pulses to get to infinite energy, the original propsoal by Yuen-Zhou suggested performing a series of pump probe experiments at increasingly narrow pulse widths.  Johnson et al\cite{allanWitness} showed that this procedure worked well: when the amplitude of a studied system's pump-probe oscillations increase, approaching a non-zero value as the laser pulses used approach impulsive, it implies the existence of electronic coherence in the system.  If, however, the amplitudes go to zero as the laser pulses get closer to impulsive, then a the system only contains vibrational coherences..
+Because the ability to keep an electronic superposition (coherence) for a long amount of time has positive consequences for energy transfer rates and efficiencies~\cite{FMO1}, biological protection against electronic decoherence would be a profoundly interesting result of natural selection--one that we might hope to emulate.  Further research even suggested that there is an optimal point for energy transfer efficiency between perfect coherence and immediate dephasing that nature seemed to have found~\cite{energyTransfer} in the electronic dephasing rate of the Fenna-Matthews-Olsen complex and other photosynthetic complexes that were soon after discovered to have similar cross-peak oscillations ~\cite{Panitchayangkoon2011,Fidler2013,Collini2010}.  There is also great interest in being able to mimic these evolution-tuned efficiencies for artificial designs ~\cite{Creatore2013}.
 
-While Johnson may have proved that the experiment Yuen-Zhou proposed will work with laser pulses that modern experimental equipment can actually produce, there has not yet been a treatment of the effect of variations in the transition dipole with respect to nuclear coordinate: called the Condon approximation after its progenitor Edward Condon\cite{Condon}.  Such a variation would effectively mean that the strength of the molecule as an emitter and absorber would vary as the molecule's vibrational state varies which could induce oscillations in dyanmical spectra such as pump probe, transient grating or 2D electronic.
+Electronic coherence is not, however, the only process which contributes to the signal in an off-diagonal peak of a two-dimensional electronic spectrum; the vibrational motion of a molecule (also called vibrational coherences because multiple energy states are needed to produce motion) also contributes to the movement of cross peaks.  While much useful work has been done to pinpoint the  unique signatures of electronic coherence and the unique signatures of vibrational coherence in a two-dimensional electronic spectroscopy experiment ~\cite{FMO2,mech2,mech3,mech1,mech4}, a completely unambiguous experimental tool for the diagnosis of electronic coherences is still needed.
 
-What effect, then, would a basic variation in the transition dipole have on a pump-probe experiment and, more to the point, will a variation such as this cause an oscillation in a pump probe spectra taken at the impulsive limit?  We take it upon ourselves to investigate.
+The desired experiment would give an concrete yes or no answer (called a witness in the language of quantum information~\cite{Chuang2005}) to the question of whether a system exhibits long-lived electronic superpositions.  In 2012, Yuen-Zhou et. al.~\cite{witness} developed such a witness using only a one dimensional pump-probe spectrum in the impulsive limit.  They showed that there are only oscillations in a pump probe spectrum when the pump and probe beams are impulsive, in the case where there is an electronic coherence present.  Otherwise there will be no oscillations present.
 
-\section{System Setup}
-To begin the investigation, we exclusively look at a system which only has vibrational coherence: a monomer with one excited state and with only one virational coordinate.   Since the goal is to be able to isolate vibrational effects and get rid of them, this presents the easiest test for false positives: if this system presents oscillations in a spectrum, then we know where they come from.
 
-All of the systems we consider will thus look like so: we construct a vibrational monomer with a ground electronic state $\ket{g}$ and an excited electronic state $\ket{e}$ with a different harmonic vibration in both the ground and excited state such that the Hamiltonian looks like this:
+The effects of pulse widths on pump-probe spectroscopy had been studied previously~\cite{pulseWidth} but the proposed witness uniquely suggested using pulse width as an independent variable in an experiment, which should be feasible given developments in two-dimensional spectroscopy using pulse-shaping devices~\cite{pulse1,pulse2}.
+
+Johnson et. al.  ~\cite{allanWitness} then went on to show that the procedure works for finite pulse width.  Generally speaking, if the oscillations in a pump probe experiment approach zero as the pulse width approaches 0, then there is no electronic coherence.  If, however, the oscillations increase as the pulse with approaches 0, then there is an electronic coherence.
+
+Both ~\cite{witness,allanWitness} invoked the Condon approximation that transition dipoles have no variation with respect to nuclear coordinate ~\cite{Condon,FranckCondon}. But much recent work~\cite{photosyntheticKappa,MavrosNonCondon,hellerGraphene}, shows that there are notable systems with varying transition dipole moments; it is becoming clear that to have a robust electronic spectroscopy protocol, one must test it against varying transition dipole moments.  We thus take it upon ourselves to investigate the robustness of the proposed witness to transition dipole variation.
+
+What kind of issues would a varying transition dipole moment cause?  The proposed experimental protocol involves distinguishing oscillations from an electronic coherence versus oscillations from a vibrational coherence.  With a varying transition dipole moment, a system changes its strength as an emitter/absorber as its nuclei move.  Thus a variation in transition dipole will change the amplitude (but not frequency) of vibrational features or the appearance of a vibrational oscillation in a spectrum where there one would not otherwise expect with a constant transition dipole moment.  What would be problematic, then, for the proposed experimental protocol is a variation in the transition dipole moment causing an oscillations which looks like or otherwise behaves as if it was an electronic coherence.
+
+If a variation in the transition dipole causes a oscillatory signal which rises as the pulse width gets smaller then there is a problem because that would mean making a diagnosis of electronic coherence where there is none.
+
+So to test the effect of transition dipole variation on this experiment, we construct the simplest possible system with vibrational effects but no electronic coherence and then simulate Pump Probe Experiments with it.  Our system of choice is a two-electronic-level monomer with no couplings between the states, and with just one vibrational coordinate.
+
+\section{Methods}
+
+Our vibrational monomer will have a ground electronic state $\ket{g}$ and an excited electronic state $\ket{e}$ with a different harmonic vibration in both the ground and excited state such that the Hamiltonian looks like this:
 \begin{align}
 	H_0 &=  \sum_n \hbar \omega_{\gamma}  \left(n + \frac{1}{2} \right)  \ket{n_{\gamma}}\ket{g}\bra{g} \bra{n_{\gamma}} \\
    &+ \sum_m \left(  \hbar \omega_{\epsilon}  \left(m + \frac{1}{2} \right) + \omega_e \right)  \ket{m_{\epsilon}} \ket{e}\bra{e} \bra{m_{\epsilon}}
 \end{align}
-With the greek indeces corresponding to the vibrational states and the roman indeces corresponding to the electronic states.  We say that the minimum of the two potential energy wells are separated by a distance $\delta x$.
+With the Greek indices corresponding to the vibrational states and the roman indices corresponding to the electronic states.  We say that the minimum of the two potential energy wells are separated by a distance $\delta x$.
 
-Now we give this system a transition dipole moment so it can interact with input laser fields.  For simplicity's sake we ignore the vector nature of both the transition dipole and the laser pulses, instead preferring to effectively collapse them all into one direction.
+Now we give this system a transition dipole moment so it can interact with input laser fields.  For simplicity's sake we ignore the vector nature of both the transition dipole and the laser pulses, instead preferring to collapse them all into one direction.
 \begin{align}
 	\hat{\mu}(x) &= \mu (x)  \left( \ket{e}\bra{g} + \ket{g} \bra{e} \right)
 \end{align}
-where $\mu (x)$ is where the transition dipole can get interesting and break the Condon approximation.  For now we leave it general
+where $\mu (x)$ is where the transition dipole can get interesting and break the Condon approximation.  In the spirit of keeping things as simple as possible to demonstrate the effect of transition dipole variations, we will work exclusively with a linear form of $\mu(x)$:
+\begin{align}
+	\mu(x) &= \mu_0\left( 1 +  \kappa x \right)
+\end{align}
+To make $\kappa$ comparable, however, across multiple different ground-excited potential energy well displacements, we define also $\lambda$,
+\begin{align}
+	\mu(x) &= \mu_0\left( 1 +  \frac{\lambda}{ dx }x \right)
+\end{align}
+$\lambda$ has the useful property that above $\lambda=1$, the linear variation in the transition dipole magnitude becomes greater than the constant value for transit across the excited state manifold.  As a reference, the ``worst-case'' $\kappa$ value predicted in ~\cite{photosyntheticKappa} is a value of roughly .3 and a $\lambda$ value of about 0.1.
 
 
-\section{Setting up the Experiment}
-We concern ourselves exclusively with Pump Probe spectroscopy using ideal gaussian laser pulses, which differ only the their central time.  This means that all of our pulses will have the form:
+The experiment we simulate is Pump Probe spectroscopy using ideal Gaussian laser pulses, which differ only in their central time.  This means that both of our pulses (labeled pu for pump and pr for probe) will have the form:
 \begin{align}
 	E_{\text{pu}} &= \frac{E_0}{\sqrt{2 \pi \sigma^2}} e^{-\frac{t^2}{2 \sigma^2} } \left[ -e^{i \omega_c t} + e^{i \omega_c t} \right]\\
 	E_{\text{pr}} &= \frac{E_0}{\sqrt{2 \pi \sigma^2}} e^{-\frac{\left(t-T\right)^2}{2 \sigma^2} } \left[ -e^{i \omega_c \left(t-T\right)} + e^{i \omega_c \left(t-T\right)} \right]
 \end{align}
-We chose the normalization scheme the same way Johnson et al did: to keep the integral of the absolute value of the electric field constant across all possible pulse widths.  We can further split the laser pulses into positive frequency excitation pulses:
+We chose the normalization scheme the same way Johnson et al did in ~\cite{allanWitness}: to keep the integral of the absolute value of the electric field constant across all possible pulse widths.  The pulse's central frequency $\omega_c$ will always be tuned to the strongest absorption transition in the simulated system and the pulse width $\sigma$ is our main experimental independent variable.
+
+We can further split the laser pulses into positive frequency excitation pulses:
 \begin{align}
 	E_{\text{pu}+}(t) &= \frac{E_0}{\sqrt{2 \pi \sigma^2}} e^{-\frac{t^2}{2 \sigma^2} } e^{-i \omega_c t} \\
 	E_{\text{pr}+}(t) &= \frac{E_0}{\sqrt{2 \pi \sigma^2}} e^{-\frac{\left(t-T\right)^2}{2 \sigma^2} }  e^{-i \omega_c \left(t-T\right)}
@@ -51,80 +72,100 @@ and where we would define a second interaction as:
 \begin{align}
 	\ket{\psi_{Q, P} (t)}  &= -\frac{i}{\hbar} \int_{-\infty}^{t} U(t, \tau) E_P (\tau) \hat{\mu}(x) \ket{\psi_Q (\tau)} d \tau
 \end{align}
-From here we can define all of the relevant electric field emissions which obey phase matching and the rotating wave approximation and so contribute to the pump probe signal:
+From here we can define all of the relevant electric field emissions to the required order of perturbation theory which obey phase matching and the rotating wave approximation and so contribute to the pump probe signal:
 \begin{align*}
-	E_{GSB1} (t) &=  i \bra{\psi_{0} (t)} \hat{\mu} (x) \ket{\psi_{\text{pu+, pu-, pr+}} (t)}\\
-	E_{ESA} (t) &=  i \bra{\psi_{\text{pu+}} (t)} \hat{\mu} (x) \ket{\psi_{\text{pu+, pr+}} (t)}\\
-	E_{GSB2} (t) &=  i \bra{\psi_{\text{pu+, pr-}} (t)} \hat{\mu} (x) \ket{\psi_{\text{pu+}} (t)}\\
-	E_{SE} (t) &=  i \bra{\psi_{\text{pu+, pu-}} (t)} \hat{\mu} (x) \ket{\psi_{\text{pr+}} (t)} \\
-	S_{i} (T) &= 2 \text{Re} \left[ \int E^*_{\text{pr+}} (t) E_i (t) dt  \right] \\
-	S_{PP} (T) &= S_{GSB1} (T) + S_{GSB2} (T) + S_{ESA} (T) + S_{SE} (T)
+	E_{GSB1} (t, T) &=  i \bra{\psi_{0} (t)} \hat{\mu} (x) \ket{\psi_{\text{pu+, pu-, pr+}} (t, T)}\\
+	E_{ESA} (t, T) &=  i \bra{\psi_{\text{pu+}} (t)} \hat{\mu} (x) \ket{\psi_{\text{pu+, pr+}} (t, T)}\\
+	E_{GSB2} (t, T) &=  i \bra{\psi_{\text{pu+, pr-}} (t, T)} \hat{\mu} (x) \ket{\psi_{\text{pu+}} (t)}\\
+	E_{SE} (t, T) &=  i \bra{\psi_{\text{pu+, pu-}} (t)} \hat{\mu} (x) \ket{\psi_{\text{pr+}} (t, T)} \\
+	S_{i} (T) &= 2 \text{Re} \left[ \int E^*_{\text{pr+}} (t) E_i (t, T) dt  \right] \\
+	S_{PP} (T) &= S_{GSB1} (T) + S_{GSB2} (T) + S_{ESA} (T) + S_{SE} (T) \\
+	\tilde{S}(\Omega) &= \int S_{PP} (T) e^{i \Omega T} d T
 \end{align*}
+Where here $t$ is the laboratory time and $T$ is the spacing between the center of the pump and probe pulses.  The main object investigated here will be $\tilde{S}(\Omega)$ which we tune to the relevant excited and ground state vibrational frequencies to track how those oscillations go up and down with pulse width and transition dipole slope.
 
-To calculate these quantities, we use an in-house-developed wavepacket propagation code using the methods outlined in \cite{Mukamel1995,UFSwavepackets,Tannor2007,technique}.  We place the central frequency of the laser pulses at the strongest transition in the calculated absorption spectrum.
-
-
-\section{Inducing Nonexistant Vibrational Coherence}
-First we will demonstrate how a varrying transition dipole will induce vibrations in a system which otherwise would have no vibrational coherence.  Such a system would have no difference in ground and excited state potential energy wells: $\omega_{\gamma} = \omega_{\epsilon}$ and $\Delta x = 0$.  If however we give it a transition dipole like so:
-\begin{align}
-	\mu(x) &= \mu_0\left( 1 +  \kappa x \right)
-\end{align}
-
-We then calculate the various signals for this system with $\omega_{\gamma} = \omega_{\epsilon} = \omega = $ 640 cm$^{-1}$.  From the signal as a function of the population time $T$, we fourier transform and take the amplitude of the signal at the primary vibrational oscillation: $\left|\tilde{S}(\omega) \right|$.  This is also implicitly a function of the laser pulse widths $\sigma$ so we track how the signal oscillations behave as a function of the pulse width.
+To calculate these quantities, we use an in-house-developed wavepacket propagation code using the methods outlined in ~\cite{Mukamel1995,UFSwavepackets,Tannor2007,technique}.  We place the central frequency of the laser pulses at the strongest transition in the calculated absorption spectrum.
 
 \begin{figure}
-   \includegraphics[width=0.5\textwidth]{images/s_omega_omegaSame_S0.jpeg}
-   \caption{$\tilde{S}_{PP} ( \omega)$ for a system with no vibrational displacement and $\omega_{\gamma} = \omega_{\epsilon} = \omega = $ 640 cm$^{-1}$, for various values of $\kappa$.  The y-axis is log scaled because of the signal's fourth-order dependence on $\mu(x)$; small differences in $\kappa$ make very large differences in signal.  The dips is signal are an artifact of the system having the same ground and excited state vibrational frequency; they happen when the ground state bleach destructively intereferes with the excited state absorption.  In all of these systems, an experimenter using the proposed protocol would conclude that an electronic coherence exists in the system.}
+   \includegraphics[width=1.0\columnwidth]{excitation_figure.png}
+   \caption{In the case where there is no transition dipole variation, when the transition dipole operator is applied (with an impulsive pulse), the ground state wavepacket's shape is perfectly replicated as seen in a.  If, however, we introduce a linear variation, the wavepacket's shape is distorted as we see in b.  This manifests as a demonstrable difference in the pump probe signal as seen in c.  What is not clear is how the the signal changes as the pulse width changes for different transition dipole slopes, so we set out to investigate and see if this change keeps the protocol for electronic coherence detection proposed in ~\cite{witness,allanWitness} from working properly.  }
+	\label{fig:physicalIllustration}
+\end{figure}
+
+
+\section{Results and Discussion}
+
+We now have a variety of knobs to turn, in order to investigate the effect of transition dipole variation on the proposed experimental protocol.  Most importantly we have the dipole slope $\kappa/\lambda$, then the vibrational potential terms:  $\omega_{\gamma}$, $\omega_{\epsilon}$, and $\delta x$.
+
+
+
+\begin{figure}
+   \includegraphics[width=1.0\columnwidth]{S0_samefrequency_kappa_comparison.png}
+   \caption{$\tilde{S}_{PP} ( \omega)$ for a system with no vibrational displacement and $\omega_{\gamma} = \omega_{\epsilon} = \omega = $ 640 cm$^{-1}$, for various values of $\kappa$.  The y-axis is log scaled because of the signal's fourth-order dependence on $\mu(x)$; small differences in $\kappa$ make very large differences in signal.  In all of these systems, an experimenter using the proposed protocol would conclude that an electronic coherence exists in the system when there's not even a vibrational coherence in the ground state, absent a non-constant transition dipole.}
 	\label{fig:tunedZero}
 \end{figure}
 
-In \ref{fig:tunedZero} is this result for multiple vlaues of $\kappa$.  One can see quite clearly that there are oscillations in the vibrational frequency being induced and they are getting bigger as the pulse widths get smaller.  Problematically, this is precisely the signature of eletronic coherence suggested in \cite{allanWitness}.  This would mean, then, that an experiment would erroneously have diagnosed electronic coherence.  Although the non-constant transition dipole does induce a vibrational coherence on both the excited and ground state manifolds, the proposed experiment shows the signature of a electronic coherence when there is none.
 
 
-\section{Interplay between Vibrational Coherence and Transition-Dipole Variation}
-Perhaps, however, the situation is more complex in systems with vibrational coherences. That turns out not to be the case.  We first consider a monomer with a Huang-Rhys Parameter ($S$) of .2 and detuned vibrational frequencies of $\omega_e = .9 \omega_g$. and $\omega_g = 640 \text{cm}^{-1}$.  We  track both  the oscillations at $\omega_e$ and $\omega_g$.
+To start with we imagine a system with a Huang-Rhys parameter of zero  ($S=0.0$) with $\omega_{\gamma} = \omega_{\epsilon}= 640 \text{cm}^{-1}$.  Because there is no difference in the vibrational manifold structure between ground and excited state, there should be no vibrational coherence; only the 0th state is important in both wells.  So this should definitely not have any oscillations at any pulse width when we induce a nonzero $\kappa$ cut as can be seen in figure \ref{fig:tunedZero}, they not only oscillate but have growing oscillations as the pulse width decreases.  That would mean that according to the protocol of ~\cite{witness,allanWitness}, one would diagnose an electronic coherence in this system, when there's not even really a vibrational coherence in the sense that we think of one.
 
-\begin{figure}
-   \includegraphics[width=0.5\textwidth]{images/s0point2_omega_e.jpg}
-   \caption{$\tilde{S}_{PP} ( \omega_e)$ for various values of $\kappa$ in a system where S=0.2, $\omega_e = .9 \omega_g$. and $\omega_g = 640 \text{cm}^{-1}$.  }
-	\label{fig:detunedMediumExcited}
-\end{figure}
-
-\begin{figure}
-   \includegraphics[width=0.5\textwidth]{images/s0point2_omega_g.jpg}
-   \caption{$\tilde{S}_{PP} ( \omega_g)$ for various values of $\kappa$ in a system where S=0.2, $\omega_e = .9 \omega_g$. and $\omega_g = 640 \text{cm}^{-1}$.  }
-	\label{fig:detunedMediumGround}
-\end{figure}
-
-In \ref{fig:detunedMediumExcited} we see clear problems emerging for even small values of $\kappa$.  For even the smallest investigated value of $\kappa$ in this system, should thin enough laser pulses be available, the conclusion according to \cite{allanWitness} would be that the system contains electronic coherence.  We also see similar issues in $\tilde{S} ( \omega_g)$ in \ref{fig:detunedMediumGround}, but they are of less import because $\tilde{S} ( \omega_g ) $ only captures oscillations in the ground state bleach terms, which decay proportional to $\sigma^2$ and not $\sigma$ like the  excited state absorption terms.
-
-A Huang-Rhys parameter of .2, however, is rather far away from what values for strongly-coupled photosynthetic modes \cite{typicalStwo}.  If instead we look at S=.005, which is much closer in the range the experiment appears even more broken. [NEED SMALLER $\kappa$ VALUE?] %\cite{junkCitation} not working for some FUCKING reason?!!?!?
-
-\begin{figure}
-   \includegraphics[width=0.5\textwidth]{images/s0point005_omega_g.jpg}
-   \caption{$\tilde{S}_{PP} ( \omega_g)$ for various values of $\kappa$ in a system where S=0.005, $\omega_e = .9 \omega_g$. and $\omega_g = 640 \text{cm}^{-1}$.  }
-	\label{fig:detunedSmallGround}
-\end{figure}
+A system like the one from above has little use outside of theory, because its highly improbable for a system to not change its vibrational structure at all when its electronic structure undergoes a shift.  So we continue to a system where $S=0.005$ which is close to what photosynthetic Huang-Rhys factors are~\cite{typicalHRFforPhotosynthesis}.
 
 
 \begin{figure}
-   \includegraphics[width=0.5\textwidth]{images/s0point005_omega_e.jpg}
-   \caption{$\tilde{S}_{PP} ( \omega_g)$ for various values of $\kappa$ in a system where S=0.005, $\omega_e = .9 \omega_g$. and $\omega_g = 640 \text{cm}^{-1}$.  }
-	\label{fig:detunedSmallExcited}
+   \includegraphics[width=1.0\columnwidth]{S_0p005_contour.png}
+   \caption{$\tilde{S}_{PP} ( \omega_e)$ as a function of $\lambda$ and the pulse width $\sigma$ in a system where S=0.005, $\omega_e = .9 \omega_g$. and $\omega_g = 640 \text{cm}^{-1}$. $T_w$ is the same as defined in reference \cite{allanWitness}: the peak of the signal before it goes down again.   Some traces in $\lambda$ have local minima as well when the signal goes up and we plot those as $\sigma_{up}$.  In the case where the signal just goes up as the pulse width goes down, then $T_w$ is set as $\sigma=0$}
+	\label{fig:s_0p005}
 \end{figure}
-Once again for the amplitude at the excited state frequency in \ref{fig:detunedSmallExcited} for small values of $\kappa$, pump-probe spectra have oscillations which increase as the pulse widths get smaller.
 
-\section{Non-Condonicity in Nature}
-A fair question to ask would be: what kind of values of $\kappa$ would one expect to see in nature.  Reference \cite{photosyntheticKappa} predicted a $\kappa$ value of about 0.3 on a mode with a Huang-Rhys parameter of roughly 0.8, which is very close to our \ref{fig:detunedSmallGround} and \ref{fig:detunedSmallExcited} in the regime where the proposed experiment completely breaks without even a dip in signal before the .  Admittedly this was only on one mode, but without rigorous theory like they employed in the paper, it would be impossible to even guess whether a node had a transition dipole variation or not.
+As can be seen in Figure \ref{fig:s_0p005}, there is basically nowhere that the protocol works and, worryingly, in the region of $\lambda = .1$, the signal monotonically goes up, just like the $S=0.0$ case.  While the signal does go down from its peak for some values of $\lambda$, this is before experimental noise considerations are taken into account.
 
-For another data-point of natural transition dipole variation, we calculated\cite{turbomolSoftware,Rappaport2005} the first order taylor expansion of the diatomic Iodine transition dipole, using density functional theory \cite{dft} from the ground state to the optically accessible BLANK state, using a DEF2-TZVP basis\cite{dftBasis} and the PBE0 functional\cite{dftFunctional}, which give (in atomic units):
-\begin{align}
-	\mu_{g \leftarrow e} &\approx -0.132477 - 0.04555 (x - \bar{x}_e )\\
-	&\approx \mu_0 \left[ 1 + 0.3438(x - \bar{x}_e ) \right]\\
-	\mu_{e \leftarrow g} &\approx -0.165270 - 0.0548235 (x - \bar{x}_g) \\
-	&\approx \mu_0 \left[ 1 + 0.3317(x - \bar{x}_g ) \right]
-\end{align}
-or a $\kappa$ value of roughly .3 in both cases.  The Huang-Rhys paramter of Iodine is, however, quite large at 24.6 and dynamic spectroscopy results for it would not terribly applicable to determining whether there is electronic coherence in photosynthetic systems.  What this does seem to show, however, is that perhaps the Condon Approximation is not as firm as once thought.  We treat possible methods of detecting transition dipole variation in another paper(?)
+We next look at a larger value of the Huang-Rhys parameter: $S=.2$.  We then plot the values of the signal oscillations again as a function of lambda and the result can be seen in Figure \ref{fig:s_0p2}.
 
-\section{Conclustion}
-We have shown that for small and hardly atypical linear variation in the transition dipole moment cause signatures in Pump-Probe spectroscopy that would be mistaken for an electronic coherence.
+\begin{figure}
+   \includegraphics[width=1.0\columnwidth]{S_0p2_contour.png}
+   \caption{$\tilde{S}_{PP} ( \omega_e)$ as a function of $\lambda$ and the pulse width $\sigma$ in a system where S=0.2, $\omega_e = .9 \omega_g$. and $\omega_g = 640 \text{cm}^{-1}$. }
+	\label{fig:s_0p2}
+\end{figure}
+
+This seems to suggest that for larger values of $S$, there are fewer false positives in the proposed protocol, but still indicates that there are many regions where false positives exist.
+
+
+As to the origins of the observed dips in the signal seen in Figures \ref{fig:s_0p005} and \label{fig:s_0p2},in figure \ref{fig:addedSignals}, when the nonzero $\kappa$ is turned off, we get a decreasing oscillatory signal approaching zero as the laser pulse width approaches zero just as predicted by ~\cite{allanWitness}.  If, however, we turn on the nonzero $\kappa$, we see the while there is a dip at a certain point in the signal, it increases as the pulse width approaches zero.  Indeed, even if we set $S=0.0$, and thus have a system that should have almost no oscillations, there is still an increasing oscillation signal.  The shape of these three curves suggests that there is an interference interplay between the tendency of a vibrational coherence to go down as the pulse width approaches zero and the tendency of an oscillation induced by a linear transition dipole variation to increase as the pulse width gets toward zero.
+
+\begin{figure}
+   \includegraphics[width=1.0\columnwidth]{comparison_omega_g.jpg}
+   \caption{$\tilde{S}_{PP} ( \omega_{\gamma})$ Here we have plotted the ground state oscillations for 3 systems: $\kappa=.037, S=0$; $\kappa=.037, S=0.2$; and $\kappa=0.0, S=0.2$.  This shows roughly that the effects of a non-Condon monomer without vibrational displacement add together with the effects of a Condon monomer to get the result for a non-Condon monomer with a vibrational displacement}
+	\label{fig:addedSignals}
+\end{figure}
+
+
+
+
+\section{Conclusion}
+
+Given all we have seen at this point, we must caution against using the protocol suggested by ~\cite{witness} and refined by ~\cite{allanWitness} to diagnose the existence or non-existence of long-lived electronic coherences in any kind of system, without first knowing about the extent to which the transition dipole is non-constant with respect to the relevant nuclear coordinates.  Future work may be able to salvage this protocol or a similar protocol, but without a good tool to determine whether a system has a sizeable variation in its transition dipole, there is no way to make sense of the pulse-width-dependent increasing or decreasing pump probe signal oscillations without ambiguity.
+
+% [Doran's suggestion:  Possibly add a discussion about how non-Condon effects could alter the interpretation of an existing experiment?  After looking at every paper citing Joel and Allan's witness, nothing jumps out at me as a good example of how non Condon moments can effect an observable.  Any technique which only considers a certain number of vibrational states is in danger of considering too few in any non Condon case.]
+
+
+
+\section{Acknowledgments}
+We acknowledge the support from the Center for Excitonics, an Energy Frontier Research Center funded by the U.S. Department of Energy under award DE-SC0001088 (Solar energy conversion process).  The authors also wish to thank Doran Bennet for his useful commentary on this manuscript.  We want to further acknowledge the previous work of Joel Yuen-Zhou and Allan Johnson, upon which we could not have continued without.
+
+
+
+\section{Supplemental Materials}
+We have $\lambda$ scans for $S=.4$ and $S=1.0$ as well.  Figure \ref{fig:s_1p0} and \ref{fig:s_0p4} paint a picture suggesting that the higher the Huang-Rhys parameter, the more valid the article proposed in ~\cite{allanWitness} and ~\cite{witness} will work.  The larger values of $S$ to indeed have fewer regions of false-positives.
+\begin{figure}
+   \includegraphics[width=1.0\columnwidth]{S_0p4_contour.png}
+   \caption{$\tilde{S}_{PP} ( \omega_e)$ as a function of $\lambda$ and the pulse width $\sigma$ in a system where S=0.4, $\omega_e = .9 \omega_g$. and $\omega_g = 640 \text{cm}^{-1}$.}
+	\label{fig:s_0p4}
+\end{figure}
+
+\begin{figure}
+   \includegraphics[width=1.0\columnwidth]{S_1p0_contour.png}
+   \caption{$\tilde{S}_{PP} ( \omega_e)$ as a function of $\lambda$ and the pulse width $\sigma$ in a system where S=1.0, $\omega_e = .9 \omega_g$. and $\omega_g = 640 \text{cm}^{-1}$. }
+	\label{fig:s_1p0}
+\end{figure}
+We caution, however, as we suspect that the existence of an upturn in our data  is also a function of the minimum pulse width as a ratio of the vibrational frequency of the system.  For all of the simulations in this paper, $\sigma_{\min} \omega_{\gamma} \approx 0.04 $, so for vibrational modes and experiments with regions where that figure of merit can be smaller, there are even fewer regions where there are no false positives in the proposed protocol.

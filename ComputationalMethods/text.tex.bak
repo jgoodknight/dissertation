@@ -1,0 +1,407 @@
+I put a lot of blood sweat and tears into making my code work.  It is available on my github page: \url{github.com/jgoodknight}.  I made haevy use of the numpy and scipy libraries\cite{scipy,numpy}  There are some details I wish to point out, however, in my thesis and this seems the appropriate place to do so.
+
+\section{Working with Natural Units: or, Why Mess with SI?}
+
+While an experimentalist needs a systems of units he or she can measure, we theorists prefer to have a system of units which is easy to write down, so we can worry less about dropping factors here and there.  Take for example the hydrogen atom Hamiltonian:
+
+\begin{align*}
+	\hat{H} = -\frac{\hbar ^2}{2 m_e} \nabla^2 - \frac{1}{4 \pi \epsilon_0} \frac{e^2}{r}
+\end{align*}
+Oh, man!  Look at all those constants.  Wouldn't it be better if we could just write this out:
+\begin{align*}
+	\hat{H} = -\frac{1}{2 } \nabla^2 -  \frac{1}{r}
+\end{align*}
+This easy-to-not-mess-up Hamiltonian can be yours with a little algebra and a bit of thought.
+
+\subsection{Setting Constants equal to 1}
+The astute observer will note that one can get the miraculous Hamiltonian Transformation by making the following algebraic declarations:
+\begin{align*}
+	\hbar &= 1 \\
+	e &= 1 \\
+	m_e &= 1 \\
+	\frac{1}{4 \pi \epsilon_0} = k_e &= 1
+\end{align*}
+You may now be wondering how they can be 1.  You've probably had many professors talk to you for many hours about the painstaking effort that went into determining the exact values of these constants throughout the history of physics, and here I go, willy-nilly just setting them to one: doesn't this throw off all of physics into non-physical nonsense?  Yes and no.
+
+There is, unsurprisingly, a limit to the number of units you can set to being 1.  This limit is imposed by the fine-structure constant $\alpha$:
+\begin{align*}
+	\alpha = \frac{k_e e^2}{\hbar c}
+\end{align*}
+Which, unless you listen to some theoretical cosmologists, is completely constant in our universe and has a value of $^\sim 1/137$.  So in our system of units we have set all but one of these constants which make up the fine-structure constant to be unity (the absolute limit), so we must get out that $c = \frac{1}{\alpha}$ to keep our system of units from describing a universe other than our own.
+
+
+\subsection{Setting units equal to 1 or: Finding the ``Natural'' units}
+The only reason we are able to set these units to be one is because we now measure things like energy, distance and time in units which MAKE the constants one.  $\hbar$ for example is not really just 1; it's 1 atomic-energy-unit-atomic-time-unit or $1 E_a \cdot t_a$.  To figure out exactly what these atomic units are, we do this for each constant noting that energy will be $E_a = m_a l_a^2/t_a^2$:
+
+\begin{align*}
+	\hbar &= 1 E_a \cdot t_a = m_a \frac{l_a^2}{t_a}\\
+	k_e &= 1 \frac{E_n \cdot l_a}{q_a ^2}
+\end{align*}
+We've already defined our charge units to be $e$ and our mass units to be $m_e$  (although that can easily change).
+\begin{align*}
+	\frac{\hbar}{m_e} &= \frac{l_a^2}{t_a}\\
+	k_e e^2 &= m_e \frac{l_a^2}{t_a^2} \cdot l_a
+\end{align*}
+Now with two equations and two unknowns, we begin to solve
+\begin{align*}
+	\frac{\hbar}{m_e} &= \frac{l_a^2}{t_a}\\
+	t_a &= \frac{l_a^2 m_e}{\hbar} \\
+	t_a^2 &= \frac{l_a^3 m_e}{k_e e^2} \\
+	\frac{l_a^4 m_e^2}{\hbar^2} &= \frac{l_a^3 m_e}{k_e e^2} \\
+	l_a &= \frac{\hbar^2}{m_e k_e e^2}
+\end{align*}
+Which the astute observer will note has an $\alpha$ hidden in there... somewhere:
+\begin{align*}
+	l_a &= \frac{\hbar}{m_e \alpha c}
+\end{align*}
+And the even more astute observer will notice that it is the bohr radius!  This quickly emits the time and then energy units:
+\begin{align*}
+	1 l_a &= \frac{\hbar}{m_e \alpha c} = a_0 \approx 5.29 \times 10^{-11}\text{ m} \\
+	1 t_a &= \frac{\hbar}{m_e \alpha^2 c^2 } \approx 2.419 \times 10^{-17} \text{ s} \\
+	1 E_a &= m_e \alpha^2 c^2 \approx 4.3597 \times 10^{-18} \text{ J}
+\end{align*}
+wavenumbers come up a lot on spectroscopy so let's figure out what the atomic wavenumber unit is:
+\begin{align*}
+	1 \omega_a &= \frac{1 E_a}{h c} = 219474.6 \text{ cm}^{-1} = \frac{1}{1 l_a} \\
+	hc &= 2 \pi \hbar c = \frac{2 \pi}{\alpha} = 861.022576 E_a \cdot l_a
+\end{align*}
+So to convert a wavenumber $\omega$ into an atomic energy unit:
+ \begin{align*}
+	E_a (\omega) &= \frac{\omega}{1 \omega_a} \frac{2 \pi}{\alpha} \\
+	&= \omega \left( 0.00392310807 \frac{E_a}{\text{cm}^{-1}} \right)
+\end{align*}
+
+
+\subsection{Setting other things equal to 1}
+Now let's say you are reading a paper which quotes all of its energy units in wavenumbers, all of its position units in square-root-centimeters and time units in femtoseconds.  How do you make sense of this?
+
+Let's say this particular paper is talking about harmonic oscillators, the hamiltonian of which looks like so:
+\begin{align*}
+	\hat{H} = \frac{\hbar^2 p^2}{2 m	} + \frac{1}{2} m \omega^2 (x - x_0)^2
+\end{align*}
+In the paper, however, the author quotes the hamiltonian as being thus:
+
+\begin{align*}
+	\hat{H} = \frac{p^2}{2} + \frac{1}{2} \omega^2 (x - x_0)^2
+\end{align*}
+and all energy units are given in terms of wavenumbers.  All-together, these implies 3 unitary unit relationships:
+\begin{align*}
+	\hbar = 1 \\
+	hc = 1 \\
+	m = 1
+\end{align*}
+Luckily, we don't care about coulumb relations so we can just set $c=2 \pi$ and let the electron charge and coulumb constant float to strange numbers.  Anyway, as we know from earlier, these really do have units associated with them so we add them in, calling them $j$ units.
+\begin{align*}
+	\hbar = 1 E_j \cdot t_j \\
+	m = 1 m_j
+\end{align*}
+The author has chosen wavenumbers as the units of choice for energy: specifically 100 wavenumbers.
+\begin{align*}
+	1 E_j &\sim 100.0 \text{ cm}^{-1} \\
+	1 E_j &= h c (100.0 \text{ cm}^{-1}) = 1.986 \times 10^{-21} \text{J}
+\end{align*}
+which also gives us the natural units for time:
+\begin{align*}
+	1 t_j = \frac{\hbar}{1 E_j} = 5.308837 \times 10^{-12} \text{s} = 5.3 \text{ ps}
+\end{align*}
+
+
+\subsection{Conclusion on Units}
+I have shown you the basic derivation for how to get the system of natural units (units with a bunch of constants equal to one)  known as atomic units.  Hopefully you can follow my logic to create any easy-to-derive-with system of units that you desire.  Up for a challenge?  Let the mass and charge float, set $c=1$ and then figure out how to set Boltzmann's constant and the universal gravitational constant equal to 1 also!  These are known as the Planck units and are cool because they set all the fundamental constants of the forces to 1, instead of any property of an object
+
+
+
+
+
+
+
+
+\section{Discrete Fourier Transform}
+Let's say you want a computer to do the following integral
+\begin{align}
+	\tilde{f} (\omega) = \int e^{i \omega t} f(t) dt
+\end{align}
+And your t values stretch from $0\rightarrow n \delta t$.  We could then do the integral like a Reimann Sum:
+\begin{align}
+	\tilde{f} (\omega) = \delta t \sum_{j=0}^{n}  e^{i \omega j \delta t} f( j \delta t )
+\end{align}
+but how to discretize $\omega$  I'm going to skip over why but say that Numpy's Fast Fourier Transform algoithm takes a list of function values $\{f_m\}$ and returns:
+\begin{align}
+	\tilde{f}_k = \sum_{m=0}^{n - 1}  e^{- 2 \pi i \frac{m k}{n}} f_m
+\end{align}
+which implies we get $d\omega = \frac{ 2 \pi }{n \delta t}$ with $-\frac{n-1}{2} < k < \frac{n-1}{2} $.  But we defined our fourier transforms in terms of the positive exponent.  We're in luck, however, because numpy's inverse FFT algorithm looks like this:
+\begin{align}
+	 f_m = \frac{1}{n} \sum_{k=0}^{n - 1}  e^{2 \pi i \frac{m k}{n}} \tilde{f}_k
+\end{align}
+
+
+\section{Chosing the Parameters of Space}
+In the course of simulation, we have to figure out a proper value for the box we put our wavefunctions in that doesn't affect the observables.  So we need sometihng big enough in position space and big enough in momentum space (small enough $\Delta x$.  Let's look at a ladder of harmonic oscillators:
+\begin{align}
+	H_i = \frac{1}{2m_i} \hat{p}^2 + \frac{1}{2} m_i \omega_i^2 \left( x - \bar{x}_i \right)^2
+\end{align}
+for the sake of simplicity, we'll say that all the oscillators are accessible to each other via transition dipole moments and that oscillator 0 is the leftmost.  The ground state we will say has non-negligible amplitude from $x_0 \pm n \sigma_0$ where $\sigma_0 = \sqrt{\frac{\hbar}{m \omega_i}}$.
+
+When the ground state (or any initial state but we're being simple here) from the 0th state end ups in the oscillator $j$ whose center is furthest away from its center, the center's have distance $\Delta x_{\max} =  \Delta x_{0j} = ( x_j - x_0)$.  Because of the magic of Gaussian wavepackets in harmonic potentials, the wavepacket will distort and swing to the other side of the potential energy surface and settle at the classical turning point intact.  That wavepacket will now have approximate extent of $x_0 + 2 \Delta x_{\max} + n \sigma_0$.  Which, is the furthest out the wavepacket can ever get!  So If we're only \textbf{simulating a one-interaction experiment},
+\begin{align}
+	x_{\min} &= x_0 - n \sigma_0 \\
+	x_{\max} &= x_0 + 2 \Delta x_{\max} + n \sigma_0 \\
+	x_{\max} - x_{\min} &= 2 \Delta x_{\max} + 2n \sigma_0
+\end{align}
+If, however, we are interacting more than once, things get slightly more complicated.  We have to assume that at some point, the wavepacket centered about $x = x_0 + 2 \Delta x_{\max}$ will once again end up in the 0th oscillator.  Which means that it will swing all the way over to center around  $x = x_0 - 2 \Delta x_{\max}$ and thus for more than two interactions:
+\begin{align}
+	x_{\min} &= x_0 - 2 \Delta x_{\max} - n \sigma_0 \\
+	x_{\max} &= x_0 + 2 \Delta x_{\max} + n \sigma_0 \\
+	x_{\max} - x_{\min} &= 4 \Delta x_{\max} + 2n \sigma_0
+\end{align}
+
+\subsection{Momentum-Space Considerations  }
+Alas, if only computers did not require us to simulate things discretely, we would not have to worry about momentum space but they do and thus we do.  We must chose $N$ points to simulate the system on.  When you discrete Fourier transform a function in $x$, you get values of k ranging from roughly $-\frac{\pi}{ dx}$ to $\frac{\pi}{dx}$ which means we must chose a $dx$ which is small enough to study the largest momentum the problem will end up seeing.
+\subsection{One-Interaction}
+How do we do this?  Well, consider that our rightmost amplitude is at $x = x_0 + 2 \Delta x_{\max} + n \sigma_0$.  For one interaction, the highest momentum we will see is when it gets to the center of the $j$th well.  Thinking clasically, that rightmost piece of amplitude will be motionless at the top and then be potential energy-less at the center so we can say:
+\begin{align}
+	\frac{p_{\max}^2}{2 m_j} = V_j(x_0 + 2 \Delta x_{\max} + n \sigma_0)
+\end{align}
+Since $p = \hbar k$ and we already know the form of the potential energy surface:
+\begin{align}
+	\frac{\left( \hbar k_{\max} \right)^2}{2 m_j} &= \frac{1}{2} m_j \omega_j^2 \left(x_0 + 2 \Delta x_{\max} + n \sigma_0 - x_j \right)^2 \\
+	k_{\max} &= \frac{1}{\hbar} m_j \omega_j \left( \Delta x_{\max} + n \sigma_0\right) = \frac{\pi}{dx} \\
+	dx &= \frac{\pi \hbar}{m_j \omega_j \left( \Delta x_{\max} + n \sigma_0\right)} = \frac{x_{max} - x_{\min}}{N} \\
+	\frac{\pi \hbar}{m_j \omega_j \left( \Delta x_{\max} + n \sigma_0\right)} &= \frac{2 \Delta x_{\max} + 2n \sigma_0}{N}	\\
+	N &= \frac{2 m_j \omega_j \left( \Delta x_{\max} + n \sigma_0\right)^2 }{\pi \hbar}
+\end{align}
+
+
+\subsection{Two-Interactions}
+Ah!  But what if that wavepacket at it's absolute rightmost position is then suddenly plummeted down to the leftmost 0th potential energy well?  Then there will be a nontrivially larger maximum momentum as it will have much further to travel to get to the center of the potential energy well.
+\begin{align}
+	\frac{\left( \hbar k_{\max} \right)^2}{2 m_0}  &= V_0(x_0 + 2 \Delta x_{\max} + n \sigma_0) \\
+	k_{\max} &= \frac{1}{\hbar} m_0 \omega_0 \left( x_0 + 2 \Delta x_{\max} + n \sigma_0 -x_0 \right) = \frac{\pi}{ dx} \\
+	dx &= \frac{\pi \hbar}{ m_0 \omega_0 \left( 2\Delta x_{\max} + n \sigma_0\right)} = \frac{x_{max} - x_{\min}}{N} \\
+	\frac{\hbar \pi}{ m_0 \omega_0 \left( 2\Delta x_{\max} + n \sigma_0\right)} &= \frac{4 \Delta x_{\max} + 2n \sigma_0}{N}\\
+	N &= \frac{2 m_0 \omega_0 \left(2\Delta x_{\max} + n \sigma_0 \right)^2}{\pi  \hbar}
+\end{align}
+
+\subsection{Summarize}
+\subsubsection{One-Interaction}
+\begin{align}
+	x_{\min} &= x_0 - n \sigma_0 \\
+	x_{\max} &= x_0 + 2 \Delta x_{\max} + n \sigma_0 \\
+	N &= \frac{2 \pi m_j \omega_j \left( \Delta x_{\max} + n \sigma_0\right)^2 }{\hbar} \\
+	dx &= \frac{\hbar}{\pi m_j \omega_j \left( \Delta x_{\max} + n \sigma_0\right)}
+\end{align}
+
+\subsubsection{Two-Interactions}
+\begin{align}
+	x_{\min} &= x_0 - 2 \Delta x_{\max} - n \sigma_0 \\
+	x_{\max} &= x_0 + 2 \Delta x_{\max} + n \sigma_0 \\
+	N &= \frac{2 \pi m_0 \omega_0 \left(2\Delta x_{\max} + n \sigma_0 \right)^2}{\hbar}\\
+	dx &= \frac{\hbar}{\pi m_0 \omega_0 \left( 2\Delta x_{\max} + n \sigma_0\right)}
+\end{align}
+
+\subsubsection{More-Than-Two-Interactions}
+With a third interaction, one must consider the scenario where the wavepacket at its leftomost is promoted to the rightmost potential energy well where it can again go out to the rightmost edge of the $j$th potential energy well giving us a different maximum distance needed and different maximum potential needed.
+
+
+
+
+\section{Appling $U(t)$ Numerically: the Split Operator Method}
+Let's say you want to apply an exponential operator to something:
+\begin{align*}
+	U = e^{-i t \mathcal{H} / \hbar}
+\end{align*}
+This does not appear to be terribly difficult at first sight if you know how to take the exponential of whatever $\mathcal{H}$ is.  Let's just make life difficult and call $\mathcal{H}$ the Hamiltonian of a quantum system which would make $U$ the time-evolution operator:
+\begin{align*}
+	U = e^{-i t / \hbar \mathcal{H}(p, x) } = e^{-i t / \hbar (\mathcal{T}(p) + \mathcal{V}(x) ) }
+\end{align*}
+So now it appears to be rather difficult as the potential energy is best expressed in the position basis whereas the kinetic energy is best expressed in the momentum basis.  We might consider doing this (to make our lives easier, define $\lambda = \frac{- i t}{\hbar}$) to make things simpler:
+\begin{align*}
+	U &= e^{\lambda (\mathcal{T} + \mathcal{V} ) }  = e^{\lambda \mathcal{T} } e^{\lambda  \mathcal{V} }
+\end{align*}
+Then we coudl apply the first bit, fourier transform, apply the second bit and then inverse Fourier transform back to the original basis.  Is this, correct, though?  Let's look at the taylor Series for the two.  First the ``correct'' operator:
+\begin{align*}
+	U &= e^{\lambda (\mathcal{T} + \mathcal{V} ) } \\
+	&= \sum_{k=0}^{\infty} \frac{\lambda^k}{k!} (\mathcal{T} + \mathcal{V} )^k \\
+	&= 1 + \lambda (\mathcal{T} + \mathcal{V} ) + \frac{\lambda^2}{2}(\mathcal{T}^2 + \mathcal{V}^2  + \mathcal{T}\mathcal{V} + \mathcal{V}\mathcal{T}) \\
+	&+ \frac{\lambda^3}{6}(\mathcal{T}^3+ \mathcal{V}^3 + \mathcal{T}\mathcal{V}^2 + \mathcal{T}^2\mathcal{V} + \mathcal{T}\mathcal{V}\mathcal{T} + \mathcal{V}\mathcal{T}^2 + \mathcal{V}\mathcal{T} \mathcal{V} + \mathcal{V}^2\mathcal{T}  ) + O(\lambda^4)
+\end{align*}
+Now the proposed correction:
+\begin{align*}
+	U &= e^{\lambda \mathcal{T} } e^{\lambda  \mathcal{V} }  \\
+	&= \sum_{k=0}^{\infty} \frac{\lambda^k}{k!} \mathcal{T}^k \sum_{l=0}^{\infty} \frac{\lambda^l}{l!} \mathcal{V}^k \\
+	&= 1 + \lambda (\mathcal{T} + \mathcal{V}) + \frac{\lambda^2}{2}(\mathcal{T}^2 + \mathcal{V}^2 + 2 \mathcal{T} \mathcal{V}) + \frac{\lambda^3}{6}(\mathcal{T}^3 + \mathcal{V}^3  + 3\mathcal{T}\mathcal{V}^2 + 3\mathcal{T}^2 \mathcal{V}  ) + O(\lambda^4)
+\end{align*}
+So because normally you have commutivity $xy = yx$, because the kinetic and potential operators don't necessarily commute, there is an error term here:
+\begin{align*}
+	E &=  e^{\lambda (\mathcal{T} + \mathcal{V} ) } - e^{\lambda \mathcal{T} } e^{\lambda  \mathcal{V} }  \\
+	&= \frac{\lambda^2}{2} ( \mathcal{T} \mathcal{V} - \mathcal{V} \mathcal{T} ) + O(\lambda^3) \\
+	&= \frac{\lambda^2}{2} [ \mathcal{T}, \mathcal{V}] + O(\lambda^3)
+\end{align*}
+So our approximation is good, so long as $\lambda$ is small enough to keep $\lambda^2$ sufficiently small.  This can be accomplished by letting $t=N\Delta t$ and applying the operator for $\Delta t$, $N$ times.
+
+You can get even better accuracy at the cost of more Fourier transforms using certain schemes as shown below.  (I will spare you the proofs of these)
+\begin{align*}
+	U &\approx e^{\lambda \mathcal{T} / 2 } e^{\lambda  \mathcal{V} } e^{\lambda \mathcal{T} / 2 } + O(\lambda^3) \\
+	U &\approx \left(  e^{\gamma \lambda \mathcal{T} / 2 } e^{\gamma \lambda  \mathcal{V} } e^{\gamma \lambda \mathcal{T} / 2 } \right) \left( e^{(1- 2\gamma) \lambda \mathcal{T} / 2 } e^{(1- 2\gamma) \lambda  \mathcal{V} } e^{(1- 2\gamma) \lambda \mathcal{T} / 2 } \right) \left( e^{\gamma \lambda \mathcal{T} / 2 } e^{\gamma \lambda  \mathcal{V} } e^{\gamma \lambda \mathcal{T} / 2 } \right)+ O(\lambda^4) \\
+	&= e^{\gamma \lambda \mathcal{T} / 2 } e^{\gamma \lambda  \mathcal{V} } e^{(1-\gamma) \lambda \mathcal{T} / 2 } e^{(1- 2\gamma) \lambda  \mathcal{V} } e^{(1-\gamma) \lambda \mathcal{T} / 2 }  e^{\gamma \lambda  \mathcal{V} } e^{\gamma \lambda \mathcal{T} / 2 } + O(\lambda^4) \\
+	\gamma &= \frac{1}{2 - \sqrt[3]{2}}
+\end{align*}
+You can, in principle, get a splitting method for an arbitrary level of accuracy, but it will involve more computational time.\footnote{Referenced http://www.pci.uni-heidelberg.de/tc/usr/andreasm/academic/handouthtml/node13.html for part of this derivation}
+
+\section{Trapezoidal Integration for Perturbation Theory Calculations with Smaller Time Discretization}
+
+The integral one performs to do one ``interaction'' with a perturbative hamiltonian $H'(t)$ with a time-independent Hamiltonian $H_0$ is:
+\begin{align*}
+	\ket{\Psi'(t)} = -\frac{i}{\hbar} \int_{-\infty}^{t} e^{-\frac{i}{\hbar} H_0 (t - \tau)} H'(\tau) \ket{\Psi (\tau)} d\tau
+\end{align*}
+Where $\ket{\Psi (\tau)} $ is the underlying wavefunction being interacted with, $\tau$ represents the different times that the interaction can happen at and $e^{-\frac{i}{\hbar} H_0 (t - \tau)} = U_0 (t, \tau)$ is the non-perturbative time-evolution operator.  This integral  phenomenologically represents some field represented by $H'$ having being able to interact at many different points in time--all where the field is nonzero.  At each of these points in time (represented by $\tau$), one must interact the field with the underlying wavefunction and then propagate that wavefunction out to the time-point of interest.  Then, for every $\tau$ before $t$ there is a contribution to the interacted wavefuntion at time $t$ that is averaged over by the integral.
+
+Now it is not hard to imagine that a naive implementation of this integral would be numerically very expensive.  Indeed, if you turn my above paragraph into an alogrithm directly, if the perterbation is ``on'' for $N$ time steps, you are storing $O(N^2)$ wavefunctions which gets hairy very quickly!
+
+We can do better, though and we will!  To start with, we will assume that our perturbation can be ``turned on'' at a time $t_0 > -\infty$ without affecting the calculation at all, the integral reduces to this.
+\begin{align*}
+	\ket{\Psi'(t)} = -\frac{i}{\hbar} \int_{t_0}^{t} U_0 (t, \tau) H'(\tau) \ket{\Psi (\tau)} d\tau
+\end{align*}
+now we shall disctretize time: $t_i = t_0 + i \delta t$ and $\tau_j = t_0 + j \delta t$.  $t$ and $\tau$ have the same initial value because $\tau$ is never lower than $t$.  Later on we will exploit this to simplify the expression but for now, I shall keep $\tau$ separate to make it abundantly clear that it is the variable which represents the point at which the perturbation acts on the system.
+
+We decide to perform the integral with a simple Riemann sum:
+\begin{align*}
+	\int_{t_0}^{t_f} f(t) dt =\delta t \sum_{n} f(t_n) + O(\delta t^2)
+\end{align*}
+which gives us:
+\begin{align*}
+	\ket{\Psi'(t_i)} = -\frac{i}{\hbar} \delta t  \sum_{j=0}^{j=i}   U_0 (t_i, \tau_j) H'(\tau_j) \ket{\Psi (\tau_j)}
+\end{align*}
+now at this point, we decide to try mathematical induction for the heck of it and we calculate
+\begin{align*}
+	\ket{\Psi'(t_{i+1})} &= -\frac{i}{\hbar} \delta t  \sum_{j=0}^{j=i+1}   U_0 (t_{i+1}, \tau_j) H'(\tau_j) \ket{\Psi (\tau_j)} \\
+									&= -\frac{i}{\hbar} \delta t \left[ \sum_{j=0}^{j=i}   U_0 (\delta t) U_0 (t_{i}, \tau_j) H'(\tau_j) \ket{\Psi (\tau_j)}  + U_0 (t_{i+1}, \tau_{i+1}) H'(\tau_{i+1}) \ket{\Psi (\tau_{\tau_{i+1})}} \right]
+\end{align*}
+which, since $t_n = \tau_n $ we can say
+\begin{align*}
+	\ket{\Psi'(t_{i+1})} = U_0 (\delta t)\ket{\Psi'(t_i)} -\frac{i}{\hbar} \delta t H'(\tau_{i+1}) \ket{\Psi (\tau_{\tau_{i+1})}}
+\end{align*}
+which has a really cool interpretation!  At each time step, we merely take the previous time step's perturbation and propagate it forward one step in time.  Then, we take the perturbation and interact it with the current step of the wavefunction and add it to the propagated step and that is the current step's perturbed wavefunction.  This is a phenomenal savings in space and time of calculation over an naiive implementation of the integral.
+
+This is not without it's problems, however.  The error in this integration is of the order $\delta t^2$ whereas the error for most split-operator propagation methods (if one is being smart) is of the order $\delta t^3$.  This is entirely a failing of the Riemann sum algorithm.  Remembering back to High school calculus, though, one might recall another method called trapezoidal rule for integration.
+\begin{align*}
+	\int_{t_0}^{t_f} f(t) dt =\frac{\delta t}{2} \left[ f(t_0) + f(f_f) + 2  \sum_{n=1}^{n=f-1} f(t_n) \right] + O(\delta t^3)
+\end{align*}
+which we make use of to get an even lower error
+\begin{align*}
+	\ket{\Psi'(t_{i+1})} = U_0 (\delta t)\ket{\Psi'(t_{i})} -\frac{i}{\hbar}  \frac{\delta t}{2} U_0 (\delta t) H'(\tau_{i}) \ket{\Psi (\tau_{i})} -\frac{i}{\hbar} \frac{\delta t}{2} H'(\tau_{i+1}) \ket{\Psi (\tau_{i+1})}
+\end{align*}
+
+\section{Calculation Method For Heating Calculations}
+To look at molecular heating, we would care most about the average vibrational quantum number
+\begin{align*}
+	\bar{n}(t) &= \sum_{n} n \left| \bra{g}\braket{n_{\gamma} | \Psi(t)} \right|^2
+\end{align*}
+But then what does the time-dependent wavefunction look like?  We're interested in the exact picture.  The interaction Hamiltonian is
+\begin{align*}
+	\hat{H}'(t) &= E(t)  \left(\ket{g}\bra{e} + \ket{e}\bra{g}\right)\mu(x)
+\end{align*}
+and the time-independent Hamiltonian is as above:
+\begin{align}
+	H_0 &=  \sum_n \hbar \omega_{\gamma}  \left(n + \frac{1}{2} \right)  \ket{n_{\gamma}}\ket{g}\bra{g} \bra{n_{\gamma}} \\
+   &+ \sum_m \left(  \hbar \omega_{\epsilon}  \left(m + \frac{1}{2} \right) + \omega_e \right)  \ket{m_{\epsilon}} \ket{e}\bra{e} \bra{m_{\epsilon}}
+\end{align}
+If we turn the electronic degrees of freedom, putting it into Matrix form, we then have:
+\begin{align*}
+	\hat{H}(t) &=
+	\begin{bmatrix}
+	H_{\gamma}(x) & E(t)\mu(x) \\
+	E(t)\mu(x) & H_{\epsilon}(x)
+	\end{bmatrix}
+\end{align*}
+no that won't work since the coefficients of the pauli matrices won't commute...
+
+Let's try a blast form undergrad and calculate the time-dependent coefficients!  We assume the following form of the time-varrying wavefunction:
+
+\begin{align*}
+	\ket{\Psi(t)} = \sum_{a} G_a(t) \ket{a_{\gamma}} \ket{g}  + \sum_{b} E_b(t) \ket{b_{\epsilon}} \ket{e}
+\end{align*}
+where we know the initial conditions are $G_0(0) = 1, G_{a\neq0}(0) = 0, E_b(0) = 0$.
+We now take the full time-dependent schrodinger equation:
+\begin{align*}
+	\frac{d}{dt}\ket{\Psi(t)} = -\frac{i}{\hbar}\hat{H}(t)\ket{\Psi(t)}
+\end{align*}
+starting with the left and simplest side:
+\begin{align*}
+	\frac{d}{dt}\ket{\Psi(t)} = \sum_{a} \frac{d G_a(t)}{dt} \ket{a_{\gamma}} \ket{g}  + \sum_{b} \frac{d E_b(t)}{dt} \ket{b_{\epsilon}} \ket{e}
+\end{align*}
+Then the right side can be split in twain:
+\begin{align*}
+	-\frac{i}{\hbar}\left( \hat{H}_0 + \hat{H}'(t)  \right) \ket{\Psi(t)}
+\end{align*}
+the easiest part of that being:
+\begin{align*}
+	\hat{H}_0  \ket{\Psi(t)} &= \sum_{a} G_a(t) \left[E_g + E_{\gamma}\left(a + \frac{1}{2}\right) \right]\ket{a_{\gamma}} \ket{g}  \\
+	&+ \sum_{b} E_b(t) \left[E_e + E_{\epsilon}\left(b + \frac{1}{2}\right) \right] \ket{b_{\epsilon}} \ket{e}\\
+	&= \sum_{a} G_a(t) \Omega_{(a)} \ket{a_{\gamma}} \ket{g}  \\
+	&+ \sum_{b} E_b(t) \Omega^{(b)} \ket{b_{\epsilon}} \ket{e}
+\end{align*}
+and now for the interaction term:
+\begin{align*}
+	\frac{\hat{H}'(t)}{E(t)}  \ket{\Psi(t)} &= \sum_{a} G_a(t) \mu(x)\ket{a_{\gamma}} \ket{e}  + \sum_{b} E_b(t) \mu(x)\ket{b_{\epsilon}} \ket{g}
+\end{align*}
+we may find it useful to diagonalize the vibrational eigensates into the same manifold as the electronic state using the identities: $\sum_{q}
+\ket{q_{\gamma}}\bra{q_{\gamma}}$ and $\sum_{j}
+\ket{j_{\epsilon}}\bra{j_{\epsilon}}$.  We also define $\mu_{a}^{b} = \bra{a_{\gamma}} \mu(x) \ket{b_{\epsilon}}$:
+\begin{align*}
+	\frac{\hat{H}'(t)}{E(t)}  \ket{\Psi(t)} &= \sum_{a, q} G_a(t) \mu_{a}^{q}\ket{q_{\epsilon}} \ket{e}  + \sum_{b,r} E_b(t) \mu_{r}^{b}\ket{r_{\gamma}} \ket{g}
+\end{align*}
+Now we put everything together:
+\begin{align*}
+	\left(\frac{d}{dt} +\frac{i}{\hbar}\hat{H}_0 \right)\ket{\Psi(t)}  = -\frac{i}{\hbar}\hat{H}''(t)\ket{\Psi(t)} \\
+	\sum_{a} \left(\frac{d G_a(t)}{dt} + \frac{i}{\hbar}\Omega_{(a)}\right)\ket{a_{\gamma}} \ket{g}  + \sum_{b} \left(\frac{d E_b(t)}{dt} + \frac{i}{\hbar} \Omega^{(b)} \right)\ket{b_{\epsilon}} \ket{e}\\
+	=-E(t)\frac{i}{\hbar} \left[\sum_{a, q} G_a(t) \mu_{a}^{q}\ket{q_{\epsilon}} \ket{e}  + \sum_{b,r} E_b(t) \mu_{r}^{b}\ket{r_{\gamma}} \ket{g} \right]
+\end{align*}
+Now we can pick out specific terms by ket-ing in with $\ket{g}\ket{a_{\gamma}}$ and $\ket{b}\ket{b_{\epsilon}}$.
+\begin{align*}
+	\left(\frac{d G_a(t)}{dt} + \frac{i}{\hbar}\Omega_{(a)}\right) &=-E(t)\frac{i}{\hbar}  \sum_{b} E_b(t) \mu_{a}^{b}
+\end{align*}
+and then:
+\begin{align*}
+	\left(\frac{d E_b(t)}{dt} + \frac{i}{\hbar} \Omega^{(b)} \right) =-E(t)\frac{i}{\hbar} \sum_{a} G_a(t) \mu_{a}^{b}
+\end{align*}
+
+This can be re-cast as a matrix problem!
+\begin{align*}
+	\frac{d}{dt}\begin{bmatrix}
+		G_a(t) \\
+		E_b(t)
+	\end{bmatrix}
+	= -\frac{i}{\hbar}
+	\begin{bmatrix}
+		\Omega_{(a)} & E(t) \mu_{a}^{b} \\
+		E(t) \mu_{a}^{b} & \Omega^{b}
+	\end{bmatrix}
+	\cdot
+	\begin{bmatrix}
+		G_a(t) \\
+		E_b(t)
+	\end{bmatrix}
+\end{align*}
+Then this is put into a numeric first order differential equation solver.  At every point I make sure there is not too much amplitude in the highest vibrational state and then re-start the calculation if so, ensuring no unphysical results from truncation of the Hilbert Space.
+
+\section{Notorious RWA: the Rotating Wave Approximation}
+
+There's another trick we can use to save a lot of computational time called the rotating wave approximation.  Let's take a look at some laser excitation operator:
+\begin{align*}
+	\hat{H}_{+}'(t) = E_0 e^{-i \omega_c \tau} e^{\frac{\tau^2 }{2 \sigma^2}}  \ket{e}\bra{g}
+\end{align*}
+if we assume the ground state has zero energy and the excited state has energy/frequency (because $\hbar=1$ here) $\Omega$ then we expect the zero and first order pertorbation to look like:
+\begin{align*}
+	\ket{\psi_0 (t)} &= \ket{g} \\
+	\ket{\psi_{+} (t)} &= -\frac{i}{\hbar} \int_{-\infty}^{t} U(t, \tau) \hat{H}_{+}'(\tau) \ket{g} d \tau \\
+	&= -\frac{iE_0}{\hbar} \int_{-\infty}^{t} U(t, \tau)e^{-i \omega_c \tau} e^{\frac{\tau^2  }{2 \sigma^2}}  \ket{e} d \tau \\
+	&= -\frac{iE_0}{\hbar} \int_{-\infty}^{t} e^{ -i\Omega (t - \tau)}e^{-i \omega_c \tau} e^{\frac{\tau^2 }{2 \sigma^2}}  \ket{e} d \tau \\
+	&= -\frac{iE_0}{\hbar} e^{ -i\Omega t} \ket{e} \int_{-\infty}^{t} e^{-i ( \omega_c - \Omega) \tau} e^{\frac{\tau^2 }{2 \sigma^2}} d \tau
+\end{align*}
+so we see that after the excitation perturbation only depends on $\omega_c - \Omega$ or the difference between the central frequency of the pulse and the laser.  Which means that we can wrap those two things together and say that the energy of the excited state is zero and that the laser oscillates at a frequency of $\omega_c - \Omega$ instead.
+\begin{align*}
+	\ket{\psi_0 (t)} &= \ket{g} \\
+	\ket{\psi_{+} (t)} &= -\frac{iE_0}{\hbar}\ket{e} \int_{-\infty}^{t} e^{-i \delta \omega \tau} e^{\frac{\tau^2 }{2 \sigma^2}} d \tau
+\end{align*}
+What does that give us computationally?  It means, primarily, that we can use a smaller time step and have the same accuracy, which will greatly speed up the calculation.  One must be careful, though.  It only works for diagonal Hamiltonians.  Once one has a diagonal (or block diagonal) Hamiltonian, one can use this trick to consider the possible transitions between the diagonal states.

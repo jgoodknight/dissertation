@@ -1,0 +1,73 @@
+\section{Background}
+Plants collect sunlight using a molecule called chlorophyll and eventually store it as energy in the form of sugar.  Scientists have been studying this process for decades, because it is so fundamental to life on earth.   And since plants have survived on sunlight for billions of years, evolution must have taught them a trick or two for transferring that energy in the best way possible: tricks that humans should want to use to engineer our own super-efficient light harvesting machines.  In doing so, this could fix a lot of the problems facing human consumption of energy, so this is a very important line of questioning!
+
+But which plants make the most sense to study?  Ones that get the least amount of light!  They will have had the most intense evolutionary pressures on them to use their precious incoming energy.   It turns out then, that the most promising organisms are not exactly plants but instead photosynthetic bacteria, the most famous of which is called ``Chlorobaculum Tepidum''.  Also known as Green Sulfur Bacteria, it lives at the bottom of deep calderas and gets roughly 10-thousand-times less light than your typical plant.
+
+In 2007, scientists at UC Berkeley\cite{FMO1} performed an experiment on one small, 7-chlorophyll protein complex involved in photosynthesis from Green Sulfur Bacteria that suggested something fascinating with the potential to unlock even more!  It looked like the complex might have been using an intriguing aspect of quantum mechanics to make its energy transfer faster.  And, in doing so, had overcome a problem that is currently vexing scientists on the way to making a \textbf{quantum computer} which would revolutionize chemistry, numerical analysis, cryptography and multiple other fields.
+
+So, how could a plant-like bacteria help design a quantum computer?  According the theory of quantum mechanics, objects can be in two different states at the same time if they are small enough.  The concrete example most people are familiar with is the thought experiment of Schrodinger's Cat: you put a cat in a box with a vial of poison triggered by a quantum mechanical particle decay and supposedly the cat is both alive and dead at the same time\footnote{There are big problems with interpreting this experiment in that way but I won't get into that here; happy to discuss in person if you wish} until you open the box and look at it.  This observation then causes the system to probabilistically chose one state or the other (called collapse).  This whole process happens because the particle at the trigger is small enough to be in two states at once (called a superposition).
+
+What the experimenters thought they were seeing was that several of the chlorophylls in the complex were able to be in an excited state at the same time: one particle of light (a photon) comes in and excites two or more chlorophylls at the same time.
+
+Why would we be surprised that multiple chlorophylls would be excited at the same time?  Imagine that this excitation can travel around to different chlorophylls--which it will have to do, in order to get to the reaction center where the sunlight energy gets turned into sugar.  Then, you can imagine that an excitation which is getting pushed around through multiple chlorophylls at the same time, would no doubt be going faster than an excitation which is only on one at a time.  Put another way: the excitation can, instead of hopping around, travel like a wave through the plant's chlorophyll and find the place it needs to be much faster.
+
+But why wouldn't evolution figure out this faster way of transferring energy?  It turns out that these superpositions of excited states are \textbf{incredibly} delicate.  Much like opening the box in the Schrodinger's cat thought experiment automatically turns the system into one state or the other, in a warm, wet system like a cell there is so much chaotic motion going on that a excitation superposition should collapse quickly.
+
+What about the quantum computing aspect?  Quantum computer bits (called qubits) have to be both zero and one at the same time: it's the whole reason they are faster for some computations.  But the superposition of the qubit's state is similarly delicate.  So there is incredible effort being spent now to engineer ways to keep qubits alive.  This is currently very difficult for humans; in even non-chaotic systems like diamonds or semiconductors at super-cooled temperatures is expensive and difficult.  You're talking about investing in a several-million dollar lab that only dozens of research groups around the world can currently do and only recently.
+
+Circling back to the experiments done in 2007, basically what they were suggesting was thus: evolution had through an eons-long random walk taught the hearty green sulfur bacteria how to engineer a protein cage that keeps excited-state superpositions on chlorophyll alive long enough to increase the efficiency of its energy transfer.  Better understanding how it does that would guide  development of better solar cells and development of a quantum computer: both would be very positive gains for humanity!
+
+\section{Where My Thesis Comes In}
+The experiment done was incredibly novel, but for one small problem: it was ambiguous.
+
+They diagnosed the existence of these excited-state superpositions by seeing oscillations in a certain kind of spectroscopic signal\footnote{Two-Dimensional Electronic Spectroscopy to be exact.  In a few words, it is a map from energy in to energy out as a function of time waited}.  Similar oscillations, however, also occur when the molecules are simply vibrating!
+
+Until very recently there was no known experiment to isolate the expected, almost boring, vibrational oscillations from the novel excited state superposition oscillations.
+
+In 2011, however, our lab came up with an experiment that will give a definite answer\cite{witness}.  In summary, the work showed if you can perform a different kind of spectroscopy experiment \footnote{called Pump Probe spectroscopy: it is very much what it reads like: One laser in to excite or pump the system into a higher energy state, wait a time $T$, then send another laser to detect (or probe) how the system behaved during the waiting time.  It contains less information that 2D electronic spectroscopy but is much easier to perform.} with laser pulses that are infinitely thin in time duration, then there would be no oscillations due to vibrations.
+
+This works great!  Except for a few \textbf{caveats}:
+\begin{enumerate}
+  \item The ability of the molecule to absorb and emit light must not change as it vibrates
+  \item The molecule's vibrations must behave like ideal springs ($V = k x^2$)
+  \item There is no such thing as an infinitely-thin laser pulse in time
+\end{enumerate}
+
+Thus I have spent my PhD looking at these three problems and seeing how they affect our proposed experiment.  It is incredibly important to be able to understand what's going on in these systems and having a method which is robust to the realities of the real world is similarly important.
+
+\section{Methods}
+I perform the analysis using numerical simulations before asking an experimentalist with an expensive, complex system to do them because it's much easier to iterate new ideas quickly to see if they work on the computer before sending them to a laser lab.  And it's much easier to convince an experimentalist to do an experiment if it's been thoroughly tested numerically first.
+
+At the start of my PhD, I was handed my predecessor's MATLAB code that I could use if I wanted to, but it wasn't very extendable so I made the decision to design my own.
+
+I use Python and the Numpy and Scipy libraries.  The code I developed is object-oriented and extendable to an arbitrary number of dimensions with just a different input file.  There are 10 Base classes which define the physics and 6 experiment classes which define the parameters for calculating an experiment from the base physics.
+
+I also programmed a package I call ClusterPool which a map function to make embarrassingly parallel parts of my calculations which work with Harvard's computational cluster and its quirks in an efficient manner.
+
+\section{Results}
+From the previous section, I am primarily working on 3 different assumptions from the list titled ``\textbf{caveats}''.
+
+Early on, we worked with scientists at the University of Ottawa to show that if 1 and 2 are still good, that you can use a series of not-infinitely-thin laser pulses to show that the experiment still works\cite{allanWitness}.
+
+Number 2 we have results on and it looks like it doesn't matter: molecules behaving like non-ideal springs (specifically Morse potential oscillators) still give the same yes/no answer.
+
+I've also been working with the same scientists at University of Ottawa and experimentalists at the University of Vienna to help see this experiment physically realized for the first time.  A lot of work has had to be done there, because the experimentalists weren't quite doing the same experiment that we tested; we've had to extend our method to a slightly different kind of spectroscopy.
+
+Sadly, however, we are in the process of writing up results on number 1 that seem to show that even for breaking that assumption in a small way, the experiment is no longer useful for getting rid of oscillations due to vibrations.
+
+
+% Ryan Julian's Notes:
+% overall i get the idea, though i didn't really learn why i should care wrt your future career. you're *probably* not going to be doing similar things at google (but maybe... ;-) ), but my understanding for this summary is that your reader is interested in (1) what you've been up to for 6 years and (2) how that relates/prepares you to contribute at google.
+%
+% i like that narrative introduction, but i think you should tighten it up a lot and/or include a more-verbose version as an appendix. i know academia has trained you to focus on context and contributions at the expense of mechanism, but engineering industry/google is *very much* interested in the mechanics, especially as it pertains to an individual's contributions, because we're in the mechanics business.
+%
+% it took me like 90% of your paper to find out about what you actually *did* with your time, and even then I only got a taste. so i think you should show how the considerable software infrastructure work you did contributed to pursing your research question. don't be afraid to write in perverse technical depth and detail about it. this will be read by software engineers.
+%
+% culture notes:
+% google values work by individuals on 2 axes: complexity and impact. the value of an effort is complexity * impact.
+%
+% complexity measures how much skill it takes for an individual or group to complete an objective. fixing a bug is easy. refactoring something or building a new module is fairly difficult. building totally new system to replace an old one is much harder. (leading the) building (of) an operating system for a planet-scale computer is a crowning career achievement which takes a decade. but complexity is irrelevant if the work as no impact.
+%
+% google thinks about impact on a global scale, and not less. the bar for creating a new google product is called the toothbrush test: "is this something that could be used by everyone in the world once, and preferably twice, a day?" the three most important things for showing impact at google are: it must be quantifiable, it must be quantifiable, it must be quantifiable. for individual contributors, impact is measured at escalatingly-larger scopes, usually in # of engineers, # of users, or # of dollars/efficiency.
+%
+% circling back to your paper, it seems to me like your work has pretty big blue-sky implications for biofuels, organic solar cells, and several other non-biological applications impacted by the method. so why didn't i hear about it? googlers love to celebrate chipping away at the coalface of knowledge, even if you found your way into a cul-de-sac, if you make it clear what big ideas you were getting at.

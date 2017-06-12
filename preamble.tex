@@ -6,7 +6,8 @@
 \usepackage{subcaption}
 \usepackage[section]{placeins}
 \usepackage{algorithm,algorithmic}
-\usepackage{hyperref,verbatim}
+\usepackage{verbatim}
+\usepackage{hyperref}
 
 \usepackage[english]{babel}
 \usepackage{thmtools}
@@ -15,6 +16,10 @@
 \usepackage{multirow}
 \usepackage{fmtcount}
 \usepackage{bm,bbm}
+\usepackage{datetime}
+
+\usepackage{booktabs}
+\usepackage{siunitx}
 
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
@@ -43,7 +48,7 @@
 \makeatother
 %%%END OF FIGURE SETUP%%%
 
-\newcommand{\ang}{\text{\normalfont\AA}}
+% \newcommand{\ang}{\text{\normalfont\AA}}
 
 
 % Math formatting
@@ -70,3 +75,18 @@
 % 1.9 is close enough to 2.0 to satisfy harvard university:
 \def\dsp{\def\baselinestretch{1.85}\large\normalsize}
 \def\hsp{\def\baselinestretch{1.2}\large\normalsize} % intermediate spacing
+
+
+\numberwithin{equation}{section}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+
+\newcommand\blankpage{%
+    \vspace*{\fill}
+    \hfill
+    \begin{center}
+    This page intentionally left blank.
+    \end{center}
+    \vspace{\fill}
+    \thispagestyle{plain}
+    \newpage
+}

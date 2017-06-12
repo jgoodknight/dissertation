@@ -1,0 +1,57 @@
+% Use only LaTeX2e, calling the article.cls class and 12-point type.
+
+\documentclass[12pt]{article}
+
+% Users of the {thebibliography} environment or BibTeX should use the
+% scicite.sty package, downloadable from *Science* at
+% http://www.sciencemag.org/authors/preparing-manuscripts-using-latex
+% This package should properly format in-text
+% reference calls and reference-list numbers.
+
+\usepackage{scicite}
+
+\usepackage{times}
+
+% The preamble here sets up a lot of new/revised commands and
+% environments.  It's annoying, but please do *not* try to strip these
+% out into a separate .sty file (which could lead to the loss of some
+% information when we convert the file to other formats).  Instead, keep
+% them in the preamble of your main LaTeX source file.
+
+
+% The following parameters seem to provide a reasonable page setup.
+
+\topmargin 0.0cm
+\oddsidemargin 0.2cm
+\textwidth 16cm
+\textheight 21cm
+\footskip 1.0cm
+
+
+%The next command sets up an environment for the abstract to your paper.
+
+\newenvironment{sciabstract}{%
+\begin{quote} \bf}
+{\end{quote}}
+
+% #my code
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx,psfrag}
+\usepackage{dcolumn}
+\usepackage{bm,tabularx,ragged2e,booktabs,caption}
+\usepackage{ulem}
+\usepackage{amsmath}
+\usepackage{setspace}
+\usepackage{datetime}
+\usepackage{leftidx}
+\usepackage[USenglish]{babel}
+
+\usepackage{amssymb,amsfonts,amsmath}
+\usepackage{bm}
+\usepackage{braket}
+\usepackage{lipsum, babel}
+
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+
+\numberwithin{equation}{section}

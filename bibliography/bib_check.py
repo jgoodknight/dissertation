@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import re
 import pandas as pd
 import sys
@@ -200,5 +201,3 @@ if __name__ == "__main__":
     check_unicode = int(input("Should I replace or list unicode characters? [options: 0 to skip, 1 to list, 2 to replace]: "))
     if(replace_or_list != 0):
         remove_unicode(check_unicode, bibfile)
-
-

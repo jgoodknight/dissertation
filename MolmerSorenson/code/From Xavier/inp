@@ -1,0 +1,29 @@
+CalculationMode = gs
+
+PseudopotentialSet = sg15
+
+%Coordinates
+ 'Yb'   | 0.0 | 0.0 | 0.0
+# 'well' | 0.0 | 0.0 | 0.0001
+%
+
+ExcessCharge = 1
+
+ExtraStates = 6
+
+Radius = 10.0
+Spacing = 0.35
+
+SpinComponents = spin_polarized
+
+%Species
+ 'Yb'   | species_pseudo | file | "70-Yb.GGA.fhi"
+ 'well' | species_user_defined | potential_formula | "0.1*r^2"
+%
+
+Output = potential
+OutputFormat = axis_x
+
+ExperimentalFeatures = yes
+
+FromScratch = yes

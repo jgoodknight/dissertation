@@ -1,0 +1,141 @@
+\section{Supplementary Information}
+\subsection{Absorption Harmonic Oscillator Model}
+We will find useful here the generic form of the Franck Condon Overlap factor for a displaced harmonic oscillator with the same curvature in the ground and excited states:
+\begin{align}
+	O_{m}^{n} &= \left(-1\right)^{n} \sqrt{\frac{e^{-S}S^{m+n}}{m!n!}} \sum_{j=0}^{\min \left( m,n\right)} \frac{m!n!(-1)^j S^{-j}}{j!(m-j)!(n-j)!}
+	\label{eqn:overlap}
+\end{align}
+\subsubsection{Linear Correction}
+To calculate the electric field ratio for a linear non-Condon correction for a system starting in the 0th state:
+\begin{align*}
+	\mu_{0,\lambda} =& \mu_0 \bra{0} \left( 1 + c_1\left(\hat{a} + \hat{a}^{\dagger}\right) \right) \ket{\lambda} \\
+	=& \mu_0\left( \delta_{0,\lambda} + c_1 \delta_{1, \lambda}\right)
+\end{align*}
+
+\begin{align}
+	H_{(1)}(0,k) &=\frac{\sum_{\lambda,\nu} \left[ \delta_{0,\lambda} + c^*\delta_{\lambda, 1} \right]\left[ \delta_{0,\nu} + c \delta_{\nu, 1} \right]   O_{\lambda}^{k+1} O_{\nu}^{k+1} }{\sum_{l,n} \left[ \delta_{0,l} + c^*\delta_{l, 1} \right]\left[ \delta_{0,n} + c \delta_{n, 1} \right]   O_{l}^{k} O_{n}^{k} }\\
+	&= \frac{ \left[ O_{0}^{k+1} + c^*O_{1}^{k+1} \right]\left[ O_{0}^{k+1} + c O_{1}^{k+1} \right]   }{\left[ O_{0}^{k} + c^*O_{1}^{k} \right]\left[ O_{0}^{k} + c O_{1}^{k}\right]     } \\
+	&=  \frac{\left| O_{0}^{k+1} + cO_{1}^{k+1}  \right|^2 }{\left|O_{0}^{k} + cO_{1}^{k} \right|^2} \\
+	&= \left(\frac{O_{0}^{k+1}}{O_{0}^{k}} \right)^2   \frac{ \left|1 + c\frac{O_{1}^{k+1}}{O_{0}^{k+1}}  \right|^2}{\left|1 + c\frac{O_{1}^{k} }{O_{0}^{k}}\right|^2}
+\end{align}
+
+For this, several quantities can be computed
+
+\begin{align}
+	O_{0}^{k+1} &= \left(-1\right)^{k+1} \sqrt{\frac{e^{-S}S^{k + 1}}{(k+1)!}} \\
+	O_{1}^{k+1} &= \left(-1\right)^{k+1} \sqrt{\frac{e^{-S}S^{1+k+1}}{(k+1)!}} \sum_{j=0}^{\min \left( 1,k+1 \right)} \frac{(k+1)!(-1)^j S^{-j}}{j!(1-j)!(k+1-j)!}\\
+	&= \left(-1\right)^{k+1} \sqrt{\frac{e^{-S}S^{1+k+1}}{(k+1)!}} \left[  \frac{(k+1)! }{(k+1)!}  - \frac{(k+1)! S^{-1}}{k!}\right]\\
+	&= \left(-1\right)^{k+1} \sqrt{\frac{e^{-S}S^{1+k+1}}{(k+1)!}} \left[  1  - \frac{(k+1) }{S}\right]
+\end{align}
+then the desired ratio is
+\begin{align}
+	\frac{O_{1}^{k+1}}{ O_{0}^{k+1}} &=  \frac{\left(-1\right)^{k+1} \sqrt{\frac{e^{-S}S^{1+k+1}}{(k+1)!}} \left[  1  - \frac{(k+1) }{S}\right]}{\left(-1\right)^{k+1} \sqrt{\frac{e^{-S}S^{k + 1}}{(k+1)!}}}\\
+	&=  \frac{ \sqrt{\frac{e^{-S}S^{1+k+1}}{(k+1)!}} }{ \sqrt{\frac{e^{-S}S^{k + 1}}{(k+1)!}}} \left[  1  - \frac{(k+1) }{S}\right]\\
+	&= \sqrt{S} \left[  1  - \frac{(k+1) }{S}\right]
+\end{align}
+as for the other ratio:
+\begin{align}
+	O_{0}^{k} &= \left(-1\right)^{k} \sqrt{\frac{e^{-S}S^{k }}{k!}} \\
+	O_{1}^{k} &= \left(-1\right)^{k} \sqrt{\frac{e^{-S}S^{1+k}}{k!}} \sum_{j=0}^{\min \left( 1,k \right)} \frac{k!(-1)^j S^{-j}}{j!(1-j)!(k-j)!}
+\end{align}
+first we start with the case where $k\geq1$
+\begin{align}
+	O_{1}^{k} &= \left(-1\right)^{k} \sqrt{\frac{e^{-S}S^{1+k}}{k!}} \left[ \frac{k! }{k!} - \frac{k! S^{-1}}{(k-1)!} \right] \\
+	&= \left(-1\right)^{k} \sqrt{\frac{e^{-S}S^{1+k}}{k!}} \left[ 1 - \frac{k}{S} \right]
+\end{align}
+if $k=0$ then the summation above will be unity and the same quation will thus work for both.  Now when we bring it back into the ratio:
+\begin{align}
+	\frac{O_{1}^{k}}{O_{0}^{k}} &= \frac{\left(-1\right)^{k} \sqrt{\frac{e^{-S}S^{1+k}}{k!}} \left[ 1 - \frac{k}{S} \right]}{\left(-1\right)^{k} \sqrt{\frac{e^{-S}S^{k }}{k!}}}\\
+	&= \sqrt{S} \left[  1  - \frac{k }{S}\right]
+\end{align}
+Which after substitution leads to
+\begin{align}
+	H_{(1)}(0,k)&= \frac{S }{k+1 } \frac{\left| 1 + c\sqrt{S} \left( 1  - \frac{k+1}{S} \right) \right|^2}{\left| 1 + c \sqrt{S} \left( 1  - \frac{k}{S} \right)\right|^2 }
+\end{align}
+
+
+\subsubsection{Quadratic Correction}
+but for a quadratic correction:
+\begin{align*}
+	\mu^{(2)}_{0,\lambda} =& \mu_0 \bra{0} \left( 1 + c_2\left(\hat{a} + \hat{a}^{\dagger}\right)^2\right) \ket{\lambda}\\
+	=& \mu_0 \bra{0} \left( 1 + c_2\left(\hat{N} + 1 + \hat{a}\hat{a} + \hat{a}^{\dagger}\hat{a}^{\dagger}\right)\right) \ket{\lambda}\\
+	=& \mu_0 \left( \left(1 + c_2\right) \delta_{0,\lambda} + c_2\sqrt{2}\delta_{2,\lambda} \right) \\
+	=& \frac{\mu_0}{\left(1 + c_2\right)} \left(  \delta_{0,\lambda} + \frac{c_2\sqrt{2}}{\left(1 + c_2\right)} \delta_{2,\lambda} \right) \\
+	=& \mu_0' \left(  \delta_{0,\lambda} + c_2' \delta_{2,\lambda} \right)
+\end{align*}
+which gives us for the peak ratios instead
+\begin{align}
+	H_{(2)}(0,k) &= \frac{\left| O_{0}^{k+1} + c_2' O_{2}^{k+1}  \right|^2 }{\left|O_{0}^{k} +  c_2' O_{2}^{k} \right|^2} \\
+	&=  \left(\frac{O_{0}^{k+1}}{O_{0}^{k}} \right)^2   \frac{ \left|1 + c_2'\frac{O_{2}^{k+1}}{O_{0}^{k+1}}  \right|^2}{\left|1 + c_2'\frac{O_{2}^{k} }{O_{0}^{k}}\right|^2}
+\end{align}
+
+Instead of getting algebraic expressions for $O_{n\geq2}^{k}$ as we did for $O_{1}^{k}$, we instead implement Equation \ref{eqn:overlap} directly in our solver.
+
+\subsubsection{3  Correction}
+The cubic correction looks like so:
+\begin{align*}
+	\mu^{(3)}_{0,\lambda} =& \mu_0 \bra{0} \left( 1 + c_3\left(\hat{a} + \hat{a}^{\dagger}\right)^3\right) \ket{\lambda}\\
+	=& \mu_0 \bra{0} \left( 1 + c_3 \left(\hat{a} + \hat{a}^{\dagger}\right) \left(\hat{N} + 1 + \hat{a}\hat{a} + \hat{a}^{\dagger}\hat{a}^{\dagger}\right)\right)\ket{\lambda}\\
+	=& \mu_0 \left( \bra{0}  + c_3 \bra{1}  \left(\hat{N} + 1 + \hat{a}\hat{a} + \hat{a}^{\dagger}\hat{a}^{\dagger}\right)\right)\ket{\lambda}\\
+	=& \mu_0 \left( \bra{0}  + c_3   \left(2\bra{1}  +\sqrt{6}\bra{3} \right)\right)\ket{\lambda}\\
+	=& \mu_0 \left( \delta_{0,\lambda}  + c_3   \left(2\delta_{1,\lambda}  +\sqrt{6}\delta_{3,\lambda} \right)\right)
+\end{align*}
+which indicates it makes more sense to treat (1,3) and not just (3):
+\begin{align*}
+	\mu^{(1,3)}_{0,\lambda} =& \mu_0 \left( \delta_{0,\lambda}  +  \delta_{1,\lambda} \left(2c_3 + c_1\right)   +c_3 \sqrt{6}\delta_{3,\lambda} \right)\\
+	=& \mu_0 \left( \delta_{0,\lambda}  +  c_1' \delta_{1,\lambda} +c_3 \sqrt{6}\delta_{3,\lambda} \right)\\
+	c_1' =& \left(2c_3 + c_1\right)\\
+	c_3' =& c_3 \sqrt{6} \\
+	c_1 =& \left(c_1'  - 2\frac{c_3'}{\sqrt{6}} \right)
+\end{align*}
+\subsubsection{4  Correction}
+Looking at a quadratic correction:
+\begin{align*}
+	\mu^{(4)}_{0,\lambda} =& \mu_0 \bra{0} \left( 1 + c_4\left(\hat{a} + \hat{a}^{\dagger}\right)^4\right) \ket{\lambda}\\
+	=& \mu_0 \bra{0} \left( 1 + c_4 \left(\hat{N} + 1 + \hat{a}\hat{a} + \hat{a}^{\dagger}\hat{a}^{\dagger}\right)^2 \right) \ket{\lambda} \\
+	=& \mu_0  \left( \delta_{0, \lambda} + c_4 \bra{0} \left(1 + \hat{a}\hat{a}\right)\left(\hat{N} + 1 + \hat{a}\hat{a} + \hat{a}^{\dagger}\hat{a}^{\dagger}\right) \ket{\lambda}\right)  \\
+	=& \mu_0  \left( \delta_{0, \lambda} + c_4\left[ 3 \delta_{0, \lambda} + 4\sqrt{2}\delta_{2, \lambda}  + 2\sqrt{6}\delta_{4, \lambda}  \right]\right)  \\
+	=& \mu_0  \left( \delta_{0, \lambda} \left( 1 + 3c_4 \right) + 4\sqrt{2}c_4\delta_{2, \lambda}  + 2\sqrt{6}c_4\delta_{4, \lambda}\right)\\
+	=& \mu_0'  \left( \delta_{0, \lambda}  + \frac{4\sqrt{2}c_4}{1 + 3c_4 }\delta_{2, \lambda}  + \frac{2\sqrt{6}c_4}{1 + 3c_4 }\delta_{4, \lambda}\right)
+\end{align*}
+much like for (3) we had to consider (1,3) to be more accurate, it makes no sense to consider (4) on its own; we'll need to introduce (2) as well to get (2,4):
+\begin{align*}
+	\mu^{(2,4)}_{0,\lambda} =& \mu_0  \left( \delta_{0, \lambda} \left( 1 + c_2 + 3c_4 \right) + \left( \sqrt{2} c_2 + 4\sqrt{2}c_4 \right)\delta_{2, \lambda}  + 2\sqrt{6}c_4\delta_{4, \lambda}\right)\\
+	=& \mu_0'  \left( \delta_{0, \lambda} + \frac{\sqrt{2} c_2 + 4\sqrt{2}c_4 }{1 + c_2 + 3c_4 }\delta_{2, \lambda}  + \frac{2\sqrt{6}c_4}{1 + c_2 + 3c_4 }\delta_{4, \lambda}\right) \\
+	c_2' &= \frac{\sqrt{2} c_2 + 4\sqrt{2}c_4 }{1 + c_2 + 3c_4 } \\
+	c_4' &= \frac{2\sqrt{6}c_4}{1 + c_2 + 3c_4 }
+\end{align*}
+which when inverted turns into:
+\begin{align*}
+	c_2 &= -\frac{2 \left(\sqrt{6} c_2'-2 \sqrt{2} c_4'\right)}{2 \sqrt{6} c_2'-\sqrt{2} c_4'-4 \sqrt{3}}\\
+	c_4 &= \frac{c_4' \left(3 \sqrt{2} c_4'-4 \sqrt{3}\right)}{\left(2 \sqrt{6}-3 c_4'\right) \left(2 \sqrt{6} c_2'-\sqrt{2} c_4'-4 \sqrt{3}\right)}
+\end{align*}
+
+
+\subsubsection{Generic Correction}
+It becomes clear that we should be able to define an arbitrary-order correction (at least for $\eta=0$) rather simply by adding together generic $x^n$ operator
+
+\begin{align*}
+	\mu_{0,\lambda} = \sum_n c_n \mu^{(n)}_{0,\lambda} =& \sum_n c_n \bra{0} \left(\hat{a} + \hat{a}^{\dagger}\right)^n  \ket{\lambda}
+\end{align*}
+this would then feed in to our expression for $H$:
+\begin{align}
+	H_{(\{i\})}(0,k)&= \frac{S}{k+1}   \frac{ \left|1 + \sum_{l = \{i\}} c'_l \frac{O_{l}^{k+1}}{O_{0}^{k+1}}  \right|^2}{\left|1 + \sum_{l = \{i\}} c'_l \frac{O_{l}^{k} }{O_{0}^{k}}\right|^2}
+\end{align}
+where the transformation from $c'$ back into $c$ would have to be calculated for any individual  $H_{(\{i\})}$ but is non-trivial.  We saw above that the squared operator brought ampltiude back to zero and in general, all even operators will bring back amplitude to all even operators in order below and the same with odd operators.
+
+% GRAVEYARD
+% \begin{align}
+% 	O_{2}^{k} &= \left(-1\right)^{k} \sqrt{\frac{e^{-S}S^{2+k}}{2!k!}} \sum_{j=0}^{\min \left( 2,k\right)} \frac{2!k!(-1)^j S^{-j}}{j!(2-j)!(k-j)!}
+% \end{align}
+% if $k>2$:
+% \begin{align}
+% 	O_{2}^{k} &= \left(-1\right)^{k} \sqrt{\frac{e^{-S}S^{2+k}}{2!k!}} \sum_{j=0}^{2} \frac{2!k!(-1)^j S^{-j}}{j!(2-j)!(k-j)!} \\
+% 	&= \left(-1\right)^{k} \sqrt{\frac{e^{-S}S^{2+k}}{2!k!}} \left(1 - \frac{2 k}{S} + \frac{k(k-1)}{S^2 }  \right)
+% \end{align}
+% then one can see like we did above that this holds for $k=0,1$ and we can continue on to the ratios:
+% \begin{align}
+% 	\frac{O_{2}^{k}}{O_{0}^{k}} &= \frac{\left(-1\right)^{k} \sqrt{\frac{e^{-S}S^{2+k}}{2!k!}} \left(1 - \frac{2 k}{S} + \frac{k(k-1)}{S^2 }  \right)}{\left(-1\right)^{k} \sqrt{\frac{e^{-S}S^{k }}{k!}}}\\
+% 	&= \sqrt{\frac{S^{2}}{2}} \left(1 - \frac{2 k}{S} + \frac{k(k-1)}{S^2 }  \right)\\
+% 	\frac{O_{2}^{k+1}}{O_{0}^{k+1}} &= \sqrt{\frac{S^{2}}{2}} \left(1 - \frac{2 (k+1)}{S} + \frac{k(k+1)}{S^2 }  \right)
+% \end{align}

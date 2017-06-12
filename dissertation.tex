@@ -5,26 +5,39 @@
 \input{preamble.tex}
 \dsp
 \begin{document}
-
+\hypersetup{pageanchor=false}
 \frontmatter
 
-\input{intro}
-
-\graphicspath{{paper1/}{intro/}{future/}{conclusion}}
+\graphicspath{{NonCondonPaper/images/}{MolmerSorenson/images/}{perspective_science/}{DetectingNonCondonPaper/images/}{HeatingNonCondonPaper/images/}{intro/}{future/}{OtherWork/images/}{conclusion/}}
 
 \clearpage
+\hypersetup{pageanchor=true}
 \input{intro/intro}
 
 \clearpage
-\part{Part I}
-\input{paper1/disedit}
+\part{Non-Condon Effects in Dynamic Spectroscopy}
+\clearpage
+\input{NonCondonPaper/disedit.tex}
+\clearpage
+\input{DetectingNonCondonPaper/disedit.tex}
+\clearpage
+\input{HeatingNonCondonPaper/disedit.tex}
+\clearpage
+\input{MolmerSorenson/disedit.tex}
+\clearpage
+\part{Other Electronic Spectroscopy Tools}
+\clearpage
+\input{perspective_science/disedit.tex}
+\clearpage
+\input{OtherWork/disedit.tex}
+\clearpage
+\input{ComputationalMethods/disedit.tex}
 
 \clearpage
-\part{Future Directions}
-\input{future/future}
+\part{Conclusion}
 \clearpage
 \input{conclusion/conclusion}
-
+\clearpage
 % Bibliography:
 {
 \ssp % Single spacing
