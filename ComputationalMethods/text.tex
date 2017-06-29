@@ -125,7 +125,7 @@ And your t values stretch from $0\rightarrow n \delta t$.  We could then do the 
 \begin{align}
 	\tilde{f} (\omega) = \delta t \sum_{j=0}^{n}  e^{i \omega j \delta t} f( j \delta t )
 \end{align}
-but how to discretize $\omega$  I'm going to skip over why but say that Numpy's Fast Fourier Transform algorithm takes a list of function values $\{f_m\}$ and returns:
+but how to discretize $\omega$?  I'm going to skip over why but say that Numpy's Fast Fourier Transform algorithm takes a list of function values $\{f_m\}$ and returns:
 \begin{align}
 	\tilde{f}_k = \sum_{m=0}^{n - 1}  e^{- 2 \pi i \frac{m k}{n}} f_m
 \end{align}
