@@ -31,10 +31,9 @@ Going forward, we will use the a notation of $(\{i\})$ to indicate the polynomia
 \end{align}
 but for a cubic variation would be,
 \begin{align*}
-	\mu^{(3)}_{0,\lambda} =& \mu_0 \left( \delta_{0,\lambda}  + c_3   \left(2\delta_{1,\lambda}  +\sqrt{6}\delta_{3,\lambda} \right)\right)
+	\mu^{(3)}_{a,b} =& \mu_0 \left( \delta_{a,b}  + c_3   \left(2\delta_{a + 1,b}  +\sqrt{6}\delta_{a + 3,\lambda} \right)\right)
 \end{align*}
-
-Because higher-polynomial orders cascade down (meaning that $\left( \hat{a} + \hat{a}^{\dagger}\right)^3$ and )
+and so on for higher orders.
 
 \section{Effects on Linear Absorption Spectroscopy}
 The change in transition dipole moment from the Condon approximation will not affect the frequency of the transitions in our model, so instead we look only at peak heights: specifically the absorptivity normalized to the frequency squared
@@ -100,7 +99,6 @@ We fit Equation \ref{eqn:KDef} to the addition of 5 Voigt line-shape for the Tol
  \hline
 \end{tabular}
 \caption{ Fit of the calculated peak heights to a Morse potential model.  Because of the small value of $\chi_e \omega_e$ relative to $\omega_e$, we conclude that the harmonic approximation is reasonable for this system.}
-% [Al\'an, I couldn't find the specific package you were talking about but I think I got the right formatting based off of a PRL I found.  Let me know!]
 \label{table:energyFit}
 \end{table}
 
@@ -114,17 +112,22 @@ We fit Equation \ref{eqn:KDef} to the addition of 5 Voigt line-shape for the Tol
  $r^2_{\text{Condon}}$ & .743 & .829\\
  \hline
  $S_{ (2) }$ & 1.263  &  1.201 \\
- $c'_{ 2 }$ & -0.067  &  0.006 \\
- $\theta'_{ 2 } / \pi $& 6.283  &  0.000 \\
- $r^2_{ (2) }$ & 0.833  &  0.830 \\
+ $c_{ 2 }$ & -0.063  &  0.006 \\
+ $r^2_{ (2,) }$ & 0.833  &  0.830 \\
  \hline
- $S_{ (1, 3) }$ & 1.174  &  1.185 \\
- $c'_{ 1 }$ & -0.277  &  0.222 \\
- $\theta'_{ 1 } / \pi $& 4.206  &  5.388 \\
- $c'_{ 3 }$ & -0.237  &  0.180 \\
- $\theta'_{ 3 } / \pi $& 1.251  &  1.712 \\
- $r^2_{ (1, 3) }$ & 0.977  &  1.000 \\
+ $S_{ (3) }$ & 1.245  &  1.064 \\
+ $c_{ 3 }$ & -0.021  &  -0.011 \\
+ $r^2_{ (3,) }$ & 0.806  &  0.838 \\
  \hline
+ $S_{ (9) }$ & 1.082  &  0.994 \\
+$c_{ 9 }$ & -3.31e-5  &  -1.82e-5 \\
+$r^2_{ (9,) }$ & 0.985  &  0.965 \\
+\hline
+ $S_{ (9, 7) }$ & 1.202  &  1.110 \\
+$c_{ 9 }$ & -5.05e-5  &  -3.35e-5 \\
+$c_{ 7 }$ & 3.72e-4  &  3.31e-4 \\
+$r^2_{ (9, 7) }$ & 0.990  &  0.976 \\
+\hline
 \end{tabular}
 \caption{Fit of certain parameters}
 \label{table:peakFit}
@@ -132,30 +135,62 @@ We fit Equation \ref{eqn:KDef} to the addition of 5 Voigt line-shape for the Tol
 
 Then to fit to Equation \ref{eqn:HDef}, we employed a trust region reflective algorithm least-squares fitting procedure as implemented in the Scipy package by fitting to the ~\cite{scipy,numpy}.  Because there are multiple solutions for $c$ and $\theta$ for all orders, we include a small regularization term in the fitting procedure to keep the solutions close to the Condon value of $S$.
 
-Our method was unable to find a better fit than the Condon solution for for the (1) model, but (2) gave interesting results as did (1,3).  We expect odd-polynomials to be the most physically relevant because of the broken symmetry when the molecule gets excited; we expect the molecule to preferentially absorb to the excited state when the nuclear configuration is closer to the shape of the excited state. $H_{(2)}(k,0)$ and $H_{(1,3)}(k,0)$ and give the results of their fitting in Table \ref{table:peakFit} and an example of one of these fits is in Figure \ref{fig:dcm_ratio13_fit} and \ref{fig:toluene_ratio13_fit}.
+Our method was unable to find a better fit than the Condon solution for for the (1) model, but fitting the second order, $H_{(2)}(k,0)$, improved the fit slightly.  The fit for an order 2 correction, however, is barely better than the Condon fit as evidenced in Figures \ref{fig:toluene_ratio2_fit} and \ref{fig:dcm_ratio2_fit}.
+
+We do, however, expect odd-order-polynomials to be the most physically relevant because of the broken symmetry when the molecule gets excited; we expect the molecule to preferentially absorb to the excited state when the nuclear configuration is closer to the shape of the excited state.  We tried many models and found that the best fits were around order 9, suggesting that in addition to having small coeffiicents, the non-Condon corrections in this system are high-order polynomials.  In Figures \ref{fig:toluene_ratio9_fit} and \ref{fig:dcm_ratio9_fit}, we see that the 9th order really matches the experimental data very well.
+
+Then, because we have enough data points to fit more than just two parameters, we go ahead and fit $H_{(9,7)}(k,0)$ and find that the this model fits the data even better. Figures \ref{fig:toluene_ratio9_fit} and \ref{fig:dcm_ratio9_fit} show that the fit, while only marginally better than order 9, is much better.  Table \ref{table:peakFit} summarizes the parameters found for all the investigated orders.
+
+
 
 \begin{figure}
-   \includegraphics[width=1.0\columnwidth]{dcm_ratio_fit_13.png}
-   \caption{The Voigt-derived values of $H(0,k)$ from tetracene in DCM, fit to the model for $H_{(1,3)}(0,k)$ and a purely Condon model.  Note that the Condon model does not fit the trend very well at all whereas the non-Condon model tracks the trend very well.}
-	\label{fig:dcm_ratio13_fit}
+   \includegraphics[width=1.0\columnwidth]{dcm_ratio_fit_2.png}
+   \caption{The Voigt-derived values of $H(0,k)$ from tetracene in DCM, fit to the model for $H_{(2)}(0,k)$ and a purely Condon model.  Note that the Condon model does not fit the trend very well at all whereas the non-Condon model tracks the trend very well.}
+	\label{fig:dcm_ratio2_fit}
 \end{figure}
 \begin{figure}
-   \includegraphics[width=1.0\columnwidth]{toluene_ratio_fit_13.png}
-   \caption{The Voigt-derived values of $H(0,k)$ from tetracene in toluene, fit to the model for $H_{(1,3)}(0,k)$ and a purely Condon model.  Note that the Condon model does not fit the trend very well at all whereas the non-Condon model tracks the trend very well.}
-	\label{fig:toluene_ratio13_fit}
+   \includegraphics[width=1.0\columnwidth]{toluene_ratio_fit_2.png}
+   \caption{The Voigt-derived values of $H(0,k)$ from tetracene in toluene, fit to the model for $H_{(2)}(0,k)$ and a purely Condon model.  Note that the Condon model does not fit the trend very well at all whereas the non-Condon model tracks the trend very well.}
+	\label{fig:toluene_ratio2_fit}
 \end{figure}
 
-We can also look at the functional form of $\mu(x)$ from transforming $c'$ into $c$.  The result of this for (1,3) is shown in Figure \ref{fig:mu_fit_comparison}.  Despite the slightly different values for $c'$ and $S$ for the (1,3) correction, the derived transition dipole moments seem roughly similar.
+
 
 \begin{figure}
-   \includegraphics[width=1.0\columnwidth]{dipole_comparison_13.png}
-   \caption{The fitted functional form for the transition dipole moment calculated for the Voigt-derived values of $H(0,k)$ to the model for $H_{(1,3)}(0,k)$.}
+   \includegraphics[width=1.0\columnwidth]{dcm_ratio_fit_9.png}
+   \caption{The Voigt-derived values of $H(0,k)$ from tetracene in DCM, fit to the model for $H_{(9)}(0,k)$ and a purely Condon model.  Note that the Condon model does not fit the trend very well at all whereas the non-Condon model tracks the trend very well.}
+	\label{fig:dcm_ratio9_fit}
+\end{figure}
+\begin{figure}
+   \includegraphics[width=1.0\columnwidth]{toluene_ratio_fit_9.png}
+   \caption{The Voigt-derived values of $H(0,k)$ from tetracene in toluene, fit to the model for $H_{(9)}(0,k)$ and a purely Condon model.  Note that the Condon model does not fit the trend very well at all whereas the non-Condon model tracks the trend very well.}
+	\label{fig:toluene_ratio9_fit}
+\end{figure}
+
+\begin{figure}
+   \includegraphics[width=1.0\columnwidth]{dcm_ratio_fit_97.png}
+   \caption{The Voigt-derived values of $H(0,k)$ from tetracene in DCM, fit to the model for $H_{(9,7)}(0,k)$ and a purely Condon model.  Note that the Condon model does not fit the trend very well at all whereas the non-Condon model tracks the trend very well.}
+	\label{fig:dcm_ratio97_fit}
+\end{figure}
+\begin{figure}
+   \includegraphics[width=1.0\columnwidth]{toluene_ratio_fit_97.png}
+   \caption{The Voigt-derived values of $H(0,k)$ from tetracene in toluene, fit to the model for $H_{(9,7)}(0,k)$ and a purely Condon model.  Note that the Condon model does not fit the trend very well at all whereas the non-Condon model tracks the trend very well.}
+	\label{fig:toluene_ratio97_fit}
+\end{figure}
+
+
+
+We can also look at the functional form of $\mu(x)$.  The result of this for (9,7) is shown in Figure \ref{fig:mu_fit_comparison}.  Despite the slightly different values found for $c_9$, $c_7$ and $S$ for the Toluene and DCM for the  (9,7) correction, the derived transition dipole moments seem roughly similar, at least up until $x=2x_0$, given that we are only able to discern information about the transition dipole moment where it overlaps with $\ket{0_{\gamma}}$, we do expect more uncertainty about the transition dipole as $x$ gets large compared to $x_0$.
+
+\begin{figure}
+   \includegraphics[width=1.0\columnwidth]{dipole_comparison_97.png}
+   \caption{The fitted functional form for the transition dipole moment calculated for the Voigt-derived values of $H(0,k)$ to the model for $H_{(9,7)}(0,k)$.  THe units of the $x$ axis are the characteristic distance of the ground electronic state harmonic oscillator $x_0$.}
 	\label{fig:mu_fit_comparison}
 \end{figure}
 
 
 \section{Conclusion}
-We have developed a method to provide estimates of the vibrational structure of an electronic transition dipole moment by fitting to the linear electronic absorption spectrum and applied this method to tetracene in two different solvents.  We note that linear expansions for the transition dipole variation can be extracted from simple spectra in solution. Further work on e.g. molecular spectroscopic databases will be useful to further explore the magnitude of the corrections studied in this work.
+We have developed a method to provide estimates of the vibrational structure of an electronic transition dipole moment by fitting the linear electronic absorption spectrum to lineshape profiles and then fitting the transition strengths to a polynomial non-Condon model.  We then applied this method to tetracene in two different solvents.  This method can make it clear--when a system is highly harmonic--that the system has a non-constant transition dipole moment with respect to nuclear coordinates.  We caution against using this method to precisely define the functional form of the transition dipole ithout more peak heights.  More peak hieghts removes the need to assume that certain orders are zero and thus means the modeller does not have to pick a model to fit the data, which is not on the most solid statistical footing. Further work on data from sources such as molecular spectroscopic databases will be useful to further explore the magnitude of the corrections studied in this work.
 
 
 \section{Acknowledgments}

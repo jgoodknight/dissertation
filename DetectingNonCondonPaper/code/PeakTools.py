@@ -9,8 +9,8 @@ import matplotlib.pyplot as plt
 
 from scipy.special import wofz
 DEFAULT_c_order = 2
-regularization_constant = .50
-NUM_LSTSQ_TRIES = 5
+regularization_constant = 0.50
+NUM_LSTSQ_TRIES = 10
 ZERO_TOLERANCE = 1E-4
 
 def r_squared(data, prediction):
@@ -213,27 +213,60 @@ def HO_overlap(ground_index, excited_index, S):
         summation_total += num/den
     return outside_sum * summation_total
 
+def vibrational_subspace_zero_operator(n):
+    return np.zeros((n,n))
 
-def harmonic_peak_height_ratio_clist(k, S, c_list, theta_list, c_order_list):
+def vibrational_subspace_identity_operator(n):
+    output = vibrational_subspace_zero_operator(n)
+    np.fill_diagonal(output, 1.0)
+    return output
 
-    condon_ratio = S / (k+1)
+def vibrational_subspace_creation_operator(n):
+    vibrational_subspace = vibrational_subspace_zero_operator(n)
+    for vibrational_index in range(n - 1):
+        vibrational_subspace[vibrational_index, vibrational_index + 1] = math.sqrt(vibrational_index + 1)
+    return vibrational_subspace.T
 
-    correction_num = 1
-    correction_den = 1
+def vibrational_subspace_dimensionless_position_operator(n):
+    creation = vibrational_subspace_creation_operator(n)
+    annihilation = np.conj(creation.T)
+    position = (creation + annihilation)
+    return position
+
+def vibrational_subspace_position_to_nth_power_operator(n, n_power):
+    if n_power == 0:
+        return vibrational_subspace_identity_operator(n)
+    assert(n_power >=1)
+    x = vibrational_subspace_dimensionless_position_operator(n)
+    output = x
+    for i in range(n_power-1):
+        output = output.dot(x)
+    return output
+
+def harmonic_peak_height_ratio_klist_clist(k_list, S, c_list, c_order_list, initial_state=0):
+    k_list = np.array(k_list)
+
+    max_c_order = max(c_order_list)
+    N_vib = 3 * max_c_order
+
+    mu_operator = vibrational_subspace_identity_operator(N_vib)
+
     for i, c_value in enumerate(c_list):
         c_order = c_order_list[i]
-        theta_value = theta_list[i]
 
-        k1_ratio = math.sqrt(math.factorial(c_order)) * HO_overlap(c_order, k+1, S) / HO_overlap(0, k+1, S)
-        k_ratio = math.sqrt(math.factorial(c_order)) * HO_overlap(c_order, k, S) / HO_overlap(0, k, S)
+        x_n_operator = vibrational_subspace_position_to_nth_power_operator(N_vib, c_order)
 
-        correction_num += c_value * np.exp(1.0j *theta_value) * k1_ratio
-        correction_den +=  c_value * np.exp(1.0j *theta_value) * k_ratio
+        # print("x_n_operator",x_n_operator)
+        mu_operator = mu_operator + c_value * x_n_operator
+    mu_vector = mu_operator[initial_state, 0:max_c_order+1]
 
-    correction_num = abs(correction_num)**2
-    correction_den = abs(correction_den)**2
-    correction = correction_num / correction_den
-    return condon_ratio * correction
+    FCF_overlap_vector_k1 = np.array([[HO_overlap(i, k+1, S) for i in range(max_c_order+1)] for k in k_list])
+    FCF_overlap_vector_k = np.array([[HO_overlap(i, k, S) for i in range(max_c_order+1)] for k in k_list]) #dimention of N_vib, num_k
+    # print("FCF_overlap_vector_k", FCF_overlap_vector_k)
+    numerator = np.abs(np.dot(FCF_overlap_vector_k1, mu_vector))**2
+    denominator = np.abs(np.dot(FCF_overlap_vector_k, mu_vector))**2
+    # raise Exception
+    return numerator / denominator
 
 def spectral_gaps(peak_energies):
     output = []
@@ -247,20 +280,21 @@ def fit_condon(peak_height_list):
     for i in range(n-1):
         ratios.append(peak_height_list[i+1] / peak_height_list[i])
     def optimizer_function_handle(args):
-        S = args
-        output = np.zeros((n))
-        for i, ith_ratio in enumerate(ratios):
-            output[i] = ith_ratio - harmonic_peak_height_ratio_clist(i, S, [0.0], [0.0], [1])
+        S = args[0]
+        output = ratios - harmonic_peak_height_ratio_klist_clist(list(range(len(ratios))), S, [0.0], [1])
         return output
-    initial_values = [peak_height_list[1] / peak_height_list[0]]
+
+    initial_values = [ratios[0]]
+
     lst_sq_out = scipy.optimize.least_squares(optimizer_function_handle, initial_values, method='lm')
+
 
     return lst_sq_out["x"][0]
 
 
 
 def best_fit_transition_parameters_clist(peak_height_list,
-                                    c_order_list, use_theta,
+                                    c_order_list,
                                     number_lstSq_tries = NUM_LSTSQ_TRIES):
 
     number_data_points = len(peak_height_list)
@@ -281,41 +315,37 @@ def best_fit_transition_parameters_clist(peak_height_list,
             max_order = order
     n_c = len(c_order_list)
     best_cost = np.inf
-    best_params = [S_condon] + n_c *[0.0]+ n_c *[0.0]
+    best_params = [S_condon] + n_c *[0.0]
 
     def optimizer_function_handle(args):
         S = args[0]
-        c_list = args[1:1+n_c]
-        if use_theta:
-            theta_list = args[1+n_c:1+2*n_c]
-        else:
-            theta_list = [0.0] * n_c
+        c_list = args[1:]
         output = np.zeros((number_ratios + 1))
-        for i, ith_solution_constant in enumerate(solution_constants):
-            output[i] = ith_solution_constant - harmonic_peak_height_ratio_clist(i, S, c_list, theta_list, c_order_list)
-        output[-1] = regularization_constant * (S - S_condon)**2
-        # output = np.sqrt(np.abs(output))
+
+        output[1:] = solution_constants - harmonic_peak_height_ratio_klist_clist(list(range(number_ratios)), S, c_list, c_order_list)
+
+        output[0] = regularization_constant * (S - S_condon)**2
+
         return output
 
     #Begin trying least squares
     switch_counter = 0
     for i in range(number_lstSq_tries):
         if i == 0:
-            random_factor = 0
-        else:
             random_factor = 1.0
+        else:
+            random_factor = 0.0
         best_starting_guess_S = [S_condon]
         #new initial guesses for variables
 
-        best_starting_guess_c = list(np.array(best_params[1:1+n_c]) * np.random.randn() * random_factor)
+        best_starting_guess_c = list(np.array(best_params[1:]) * ( 1 -  np.random.randn() * random_factor))
 
-        best_starting_guess_theta =  list(np.array(best_params[1+n_c:]) * np.random.randn() * random_factor % (2.0 * np.pi) )
-
-        initial_values = best_starting_guess_S + best_starting_guess_c + best_starting_guess_theta
+        initial_values = best_starting_guess_S + best_starting_guess_c
 
         # print("initial values", initial_values)
 
         lst_sq_out = scipy.optimize.least_squares(optimizer_function_handle, initial_values)#, method="lm")
+
 
 
         cost = lst_sq_out.cost
@@ -327,69 +357,57 @@ def best_fit_transition_parameters_clist(peak_height_list,
             switch_counter += 1
     print("Through running {} lstsq attempts, {} better models were found".format(number_lstSq_tries, switch_counter))
 
+    jacobean = result["jac"]
+
+    mean_squared_error = np.average((result["fun"])**2)
+
+    number_fit_parameters = jacobean.shape[0]
+    number_data_points = number_ratios
+    df = number_data_points - number_fit_parameters
+    try:
+        cov_matrix = scipy.linalg.inv(jacobean.T.dot(jacobean)) * mean_squared_error
+        relative_errors_for_CI = []
+        for i, param in enumerate(result["x"]):
+            try:
+                err = 1.96 * math.sqrt(cov_matrix[i,i] / abs(df)) / param
+            except:
+                err = np.nan
+            relative_errors_for_CI.append(err)
+
+        print("\n\n relative parameter errors for order{}: {}\n\n".format(c_order_list, relative_errors_for_CI))
+        print("check for big off-diagonal values: \n{} \n\n".format(cov_matrix))
+    except scipy.linalg.LinAlgError:
+        print("\n\n SINGULAR COV MATRIX FOR ORDER {}\n\n".format(c_order_list))
+
     #calculate best fit peaks
     best_S = result["x"][0]
-    best_c_list = result["x"][1:1+n_c]
-    best_theta_list = result["x"][1+n_c:] % (2 * np.pi)
+    best_c_list = result["x"][1:]
 
-    return (best_S, best_c_list, best_theta_list), S_condon, best_cost
+    return (best_S, best_c_list), S_condon, best_cost, relative_errors_for_CI
 
-def transition_dipole_functional_form(x_values, c_prime_values, theta_values, c_orders):
+def transition_dipole_functional_form(x_values, c_prime_values, c_orders):
     c_orders = list(c_orders)
-    print("test loc 2", c_orders)
-    c_prime_values = np.array(c_prime_values) * np.exp(1.0j * np.array(theta_values))
-    if c_orders == [2] or c_orders == [1,2]:
-        c_2_prime = c_prime_values[-1]
-        c_2 = c_2_prime / (math.sqrt(2) * c_2_prime)
-        c_values = c_prime_values[:]
-        c_values[-1] = c_2
-        if c_orders == [1,2]:
-            c_values[0] = c_prime_values[0]
-    elif c_orders == [2,4]:
-        c_2_prime = c_prime_values[0]
-        c_4_prime = c_prime_values[1]
-        c_2_den = 2 * math.sqrt(6) * c_2_prime - math.sqrt(2) * c_4_prime - 4 * math.sqrt(3)
-        c_2_num = 2 * ( math.sqrt(6) * c_2_prime - 2 * math.sqrt(2) * c_4_prime)
-        c_2 = c_2_num / c_2_den
-        c_4_den = (2 * math.sqrt(6) - 3 * c_4_prime) * c_2_den
-        c_4_num = c_4_prime * (3 * math.sqrt(2) * c_4_prime - 4 * math.sqrt(3))
-        c_4 = c_4_num / c_4_den
-        c_values = [c_2,c_4]
-        print("[c2,c4] = {}".format(c_values))
-    elif  c_orders == [1,3]:
-        c_1_prime = c_prime_values[0]
-        c_3_prime = c_prime_values[1]
-        c_3 = c_3_prime/ math.sqrt(6)
-        c_1 = c_1_prime - 2 * c_3
-        c_values = [c_1, c_3]
-        print("[c1,c3] = {}".format(c_values))
-    else:
-        warnings.warn("transition dipole functional value not working yet for anything other than orders (1) and (2) and (1,2)")
-        c_values = np.array(c_prime_values) * np.exp(1.0j * np.array(theta_values))
-        print("[...c_i...] = {}".format(c_values))
-
+    c_values = np.array(c_prime_values)
 
     output = 1
     for order_index, order in enumerate(c_orders):
         c = c_values[order_index]
-        print("{} * x^{}".format(c, order))
+        # print("{} * x^{}".format(c, order))
         output += c  * (x_values**order)
     return output
 
 
-def predicted_peak_intensities_clist(indeces, S, c_list, theta_list, c_orders, ratios = False):
+def predicted_peak_intensities_clist(indeces, S, c_list, c_orders, ratios = False):
+    ratio_values = harmonic_peak_height_ratio_klist_clist(indeces, S, c_list, c_orders)
     if ratios:
-        output = []
+        return ratio_values
     else:
         output = [1.0]
-    for peak_index in indeces:
-        ratio_from_last_peak = harmonic_peak_height_ratio_clist(peak_index, S, c_list, theta_list, c_orders)
-        if ratios:
-            new_output = ratio_from_last_peak
-        else:
-            new_output = ratio_from_last_peak * output[-1]
-        output.append(new_output)
-    return np.array(output)
+        for r in ratio_values:
+            new_output = r * output[-1]
+            output.append(new_output)
+
+        return np.array(output)
 
 
 
@@ -452,6 +470,7 @@ class SpectraFit(object):
 
             print("{} profile fit to spectra with cost {}".format(method_string, fit["cost"]))
 
+            print("sqrt-diagonal valus ")
 
             peak_heights = best_heights
 
@@ -474,9 +493,9 @@ class SpectraFit(object):
             self.plot_anharmoic_spacing_fit(method_string, plot=False)
 
 
-        print("\n\nBEST METHOD WAS: %s" % self.best_spectral_fitting_method)
+        # print("\n\nBEST METHOD WAS: %s" % self.best_spectral_fitting_method)
 
-    def fit_non_condon_model(self, c_order, use_theta, method_string_list = methods_list):
+    def fit_non_condon_model(self, c_order, method_string_list = methods_list):
         best_cost_found = np.inf
         self.order = c_order
         for method_string in method_string_list:
@@ -490,27 +509,27 @@ class SpectraFit(object):
             peak_heights = peak_heights
             tuple_key = (method_string, tuple(c_order))
             if tuple_key in self.methodOrderTuple_to_HO_params:
-                HO_params, condon_S, fit_cost = self.methodOrderTuple_to_HO_params[tuple_key]
+                HO_params, condon_S, fit_cost, relative_errors_for_CI = self.methodOrderTuple_to_HO_params[tuple_key]
             else:
-                HO_params, condon_S, fit_cost = best_fit_transition_parameters_clist(peak_heights, c_order, use_theta)
-                self.methodOrderTuple_to_HO_params[tuple_key] = (HO_params, condon_S, fit_cost)
+                HO_params, condon_S, fit_cost, relative_errors_for_CI = best_fit_transition_parameters_clist(peak_heights, c_order)
+                self.methodOrderTuple_to_HO_params[tuple_key] = (HO_params, condon_S, fit_cost, relative_errors_for_CI)
 
-            (best_S, best_c, best_theta) = HO_params
+            (best_S, best_c) = HO_params
 
             if fit_cost < best_cost_found:
                 best_method = method_string
                 best_cost_found = fit_cost
 
-            best_theta_display = np.array(best_theta) / np.pi
-            print("HO/c model fit Found for {}!  S={}, c={}, theta/pi={}".format(method_string,  best_S, best_c, best_theta_display))
-            print("Naively S={} without a non-condon correction".format(condon_S))
+            print("HO/c model fit Found for {}!  S={}(1 +/- {}), mu={} * x^ {} * (1 +/- {}) @ 95% Confidence".format(method_string,  best_S, relative_errors_for_CI[0], best_c, c_order, relative_errors_for_CI[1:]))
+
+            print("Naiive S_Condon={}".format(condon_S))
 
             #print info about anharmonic fit
             self.plot_peak_height_fit(method_string, c_order, plot=False)
 
-        print("\n\n\nBEST METHOD WAS: %s" % best_method)
+        # print("\n\n\nBEST METHOD WAS: %s" % best_method)
         return best_cost_found
-    def explore_non_condon_orders(self, max_order, method_str = None, order_lists_to_calculate = None, use_theta = True):
+    def explore_non_condon_orders(self, max_order, method_str = None, order_lists_to_calculate = None):
         max_number_of_orders = int(math.floor((self.number_peaks - 1) / 2))
 
         if order_lists_to_calculate is None:
@@ -528,7 +547,7 @@ class SpectraFit(object):
 
         for order_list in order_lists_to_calculate:
             print("{} order non-condon perturbation calculation".format(order_list))
-            new_cost = self.fit_non_condon_model(order_list, use_theta=use_theta, method_string_list = [method_str])
+            new_cost = self.fit_non_condon_model(order_list, method_string_list = [method_str])
             heapq.heappush(cost_report, (new_cost, order_list))
             if new_cost < best_cost:
                 best_cost = new_cost
@@ -585,27 +604,28 @@ class SpectraFit(object):
     def plot_peak_height_fit(self,  method_str, c_order, plot_guess = False, plot=True):
         c_order = tuple(c_order)
         try:
-            HO_params, s_condon, err = self.methodOrderTuple_to_HO_params[(method_str, c_order)]
+            HO_params, s_condon, err, CI = self.methodOrderTuple_to_HO_params[(method_str, c_order)]
         except:
             print("plot_peak_height_fit {} not calculated yet!".format((method_str, c_order)))
             return None
         fit_params = self.method_to_fit_params[method_str]
 
-        (best_S, best_c, best_theta) = HO_params
+        (best_S, best_c) = HO_params
         (best_centers, best_heights, best_widths) = fit_params
 
-        indeces = range(len(best_centers)-1)
-        best_fit_HO_peaks = predicted_peak_intensities_clist(indeces, best_S, best_c, best_theta, c_order)
+        indeces = list(range(len(best_centers)-1))
+        best_fit_HO_peaks = predicted_peak_intensities_clist(indeces, best_S, best_c, c_order)
 
         condon_S = fit_condon(best_heights)
 
-        best_fit_condon_peaks = predicted_peak_intensities_clist(indeces, condon_S, [0.0], [0.0], [0])
+        best_fit_condon_peaks = predicted_peak_intensities_clist(indeces, condon_S, [0.0], [1])
+        # print("best_fit_condon_peaks", best_fit_condon_peaks)
 
         actual_peaks = best_heights/best_heights[0]
         r2_condon = r_squared(data = actual_peaks, prediction = best_fit_condon_peaks)
         r2_model = r_squared(data = actual_peaks, prediction = best_fit_HO_peaks)
         improvement_factor = r2_model / r2_condon
-        print("peak height goddness of fit: \nr^2_condon = {} \t r^2_model = {} \t improvement_factor = {}".format(r2_condon, r2_model, improvement_factor))
+        # print("peak height goddness of fit: \nr^2_condon = {} \t r^2_model = {} \t improvement_factor = {}".format(r2_condon, r2_model, improvement_factor))
         if plot:
             plt.title(method_str)
             plt.plot(best_centers, best_fit_HO_peaks, "x-", label="{} model".format(list(self.order)))
@@ -619,23 +639,23 @@ class SpectraFit(object):
     def plot_peak_height_ratios_fit(self, method_str, c_order):
             c_order = tuple(c_order)
             try:
-                HO_params, condon_S, fit_cost = self.methodOrderTuple_to_HO_params[(method_str, c_order)]
+                HO_params, condon_S, fit_cost, CI = self.methodOrderTuple_to_HO_params[(method_str, c_order)]
             except:
                 print("plot_peak_height_ratios_fit {} not calculated yet!".format((method_str, c_order)))
                 return None
 
             fit_params = self.method_to_fit_params[method_str]
 
-            (best_S, best_c, best_theta) = HO_params
+            (best_S, best_c) = HO_params
             (best_centers, best_heights, best_widths) = fit_params
 
-            indeces = range(len(best_centers)-1)
+            indeces = list(range(len(best_centers)-1))
 
-            best_fit_HO_ratios = predicted_peak_intensities_clist(indeces, best_S, best_c, best_theta, c_order, ratios=True)
+            best_fit_HO_ratios = predicted_peak_intensities_clist(indeces, best_S, best_c, c_order, ratios=True)
 
             condon_S = fit_condon(best_heights)
 
-            best_fit_condon_ratios = predicted_peak_intensities_clist(indeces, condon_S, [0.0], [0.0], [0], ratios=True)
+            best_fit_condon_ratios = predicted_peak_intensities_clist(indeces, condon_S, [0.0],  [1], ratios=True)
 
             actual_peaks = best_heights/best_heights[0]
             actual_ratios = []
@@ -654,29 +674,29 @@ class SpectraFit(object):
             r2_model = r_squared(data = actual_ratios, prediction = best_fit_HO_ratios)
             improvement_factor = r2_model / r2_condon
             print("peak ratio goodness of fit:\nr^2_condon = {} \t r^2_model = {} \t improvement_factor = {}".format(r2_condon, r2_model, improvement_factor))
-    def plot_transition_dipole(self, x_values, c_order, method_str, re_im_split = False, plot_potentials = True, label_prefix = ""):
+    def plot_transition_dipole(self, x_values, c_order, method_str, plot_potentials = True, label_prefix = ""):
 
             c_order = tuple(c_order)
             c_orders = c_order
             try:
-                HO_params, condon_S, fit_cost = self.methodOrderTuple_to_HO_params[(method_str, c_order)]
+                HO_params, condon_S, fit_cost, CI = self.methodOrderTuple_to_HO_params[(method_str, c_order)]
             except:
                 print("plot_transition_dipole {} not calculated yet!".format((method_str, c_order)))
                 return None
             fit_params = self.method_to_fit_params[method_str]
 
-            (best_S, best_c, best_theta) = HO_params
+            (best_S, best_c) = HO_params
             (best_centers, best_heights, best_widths) = fit_params
 
             dx = math.sqrt(2 * best_S)
 
-            indeces = range(len(best_centers)-1)
+            indeces = list(range(len(best_centers)-1))
 
-            best_fit_HO_ratios = predicted_peak_intensities_clist(indeces, best_S, best_c, best_theta, c_order, ratios=True)
+            best_fit_HO_ratios = predicted_peak_intensities_clist(indeces, best_S, best_c, c_order, ratios=True)
 
             condon_S = fit_condon(best_heights)
 
-            best_fit_condon_ratios = predicted_peak_intensities_clist(indeces, condon_S, [0.0], [0.0], [0], ratios=True)
+            best_fit_condon_ratios = predicted_peak_intensities_clist(indeces, condon_S, [0.0], [1], ratios=True)
 
             actual_peaks = best_heights/best_heights[0]
             actual_ratios = []
@@ -686,18 +706,14 @@ class SpectraFit(object):
 
 
             plt.title("Approximate Transition Dipole")
-            y_values = transition_dipole_functional_form(x_values, best_c, best_theta, c_orders)
-            # print("test loc 1", c_orders)
+            y_values = transition_dipole_functional_form(x_values, best_c, c_orders)
+
             x_p = x_values + dx
-            if re_im_split:
-                plt.plot(x_values, np.real(y_values), label=label_prefix + r" $\Re \mu$")
-                plt.plot(x_values, np.imag(y_values), label=label_prefix + r" $\Im \mu$")
-            else:
-                plt.plot(x_values, np.abs(y_values), label=label_prefix + r" $\mu$")
+            plt.plot(x_values, y_values, label=label_prefix + r" $\mu$")
             vlines_y = np.min(np.abs(y_values)), np.max(np.abs(y_values))
             plt.plot([dx, dx], vlines_y, label = label_prefix + r" $\langle x_e \rangle$")
             # plt.plot([0.0, 0.0], vlines_y, label = label_prefix + r" $\langle x_g \rangle$")
-            plt.ylabel(r"$|\mu(x) / \mu_0|$")
+            plt.ylabel(r"$\mu(x) / \mu_0$")
             plt.xlabel(r"$x / x_0$")
 
     def plot_anharmoic_spacing_fit(self, method_str, plot=True):
@@ -745,7 +761,7 @@ class SpectraFit(object):
         self.plot_fitted_heights()
 
 
-    def fit_and_observe_non_condon_models(self, order=None, use_theta = True, plot_ratio = True, plot_spectra = True, my_methods_list = None):
+    def fit_and_observe_non_condon_models(self, order=None, plot_ratio = True, plot_spectra = True, my_methods_list = None):
         if order == None:
             order = self.best_order
         print("PREPARING ANALYSIS FOR A {}-ORDER CORRECTION TO TRANSITION DIPOLE:\n".format(order))
@@ -754,7 +770,7 @@ class SpectraFit(object):
             my_methods_list = methods_list
 
         plt.figure()
-        self.fit_non_condon_model(order, use_theta, method_string_list = my_methods_list)
+        self.fit_non_condon_model(order, method_string_list = my_methods_list)
 
         for method_str in my_methods_list:
             if plot_spectra:
@@ -767,36 +783,33 @@ class SpectraFit(object):
                 plt.legend(loc=0)
 
 
-        
+
 def table_generator(order, spectra_fit_1, label_1, spectra_fit_2, label_2, method_str="voigt"):
     tuple_key = (method_str, tuple(order))
-    (HO_params_1, condon_S_1, fit_cost_1) = spectra_fit_1.methodOrderTuple_to_HO_params[tuple_key]
-    (HO_params_2, condon_S_2, fit_cost_2) = spectra_fit_2.methodOrderTuple_to_HO_params[tuple_key]
-    (best_S_1, best_c_1, best_theta_1) = HO_params_1
-    (best_S_2, best_c_2, best_theta_2) = HO_params_2
-    
+    (HO_params_1, condon_S_1, fit_cost_1, CI) = spectra_fit_1.methodOrderTuple_to_HO_params[tuple_key]
+    (HO_params_2, condon_S_2, fit_cost_2, CI) = spectra_fit_2.methodOrderTuple_to_HO_params[tuple_key]
+    (best_S_1, best_c_1) = HO_params_1
+    (best_S_2, best_c_2) = HO_params_2
+
     fit_params_1 = spectra_fit_1.method_to_fit_params[method_str]
     (best_centers_1, best_heights_1, best_widths_1) = fit_params_1
     actual_ratios = []
     for i in range(1, len(best_heights_1)):
         actual_ratios.append(best_heights_1[i] / best_heights_1[i - 1])
-    predicted_ratios = PeakTools.predicted_peak_intensities_clist(range(len(actual_ratios)), best_S_1, best_c_1, best_theta_1, order, ratios=True)
-    r2_1 = PeakTools.r_squared(actual_ratios, predicted_ratios)
-    
-    
+    predicted_ratios = predicted_peak_intensities_clist(list(range(len(actual_ratios))), best_S_1, best_c_1, order, ratios=True)
+    r2_1 = r_squared(actual_ratios, predicted_ratios)
+
+
     fit_params_2 = spectra_fit_2.method_to_fit_params[method_str]
     (best_centers_2, best_heights_2, best_widths_2) = fit_params_2
     actual_ratios = []
     for i in range(1, len(best_heights_2)):
         actual_ratios.append(best_heights_2[i] / best_heights_2[i - 1])
-    predicted_ratios = PeakTools.predicted_peak_intensities_clist(range(len(actual_ratios)), best_S_2, best_c_2, best_theta_2, order, ratios=True)
-    r2_2 = PeakTools.r_squared(actual_ratios, predicted_ratios)
-    
+    predicted_ratios = predicted_peak_intensities_clist(list(range(len(actual_ratios))), best_S_2, best_c_2, order, ratios=True)
+    r2_2 = r_squared(actual_ratios, predicted_ratios)
+
     print("  & {}  &  {} \\\\".format(label_1, label_2))
     print("$S_{{ {} }}$ & {:.3f}  &  {:.3f} \\\\".format(tuple(order), best_S_1, best_S_2))
     for i, o in enumerate(order):
-        print("$c'_{{ {} }}$ & {:.3f}  &  {:.3f} \\\\".format(o, best_c_1[i], best_c_2[i]))
-        print("$\\theta'_{{ {} }} / \pi $& {:.3f}  &  {:.3f} \\\\".format(o, best_theta_1[i], best_theta_2[i]))
-    print("$r^2_{{ {} }}$ & {:.3f}  &  {:.3f} \\\\".format(tuple(order), r2_1, r2_2))          
-    
-    
+        print("$c_{{ {} }}$ & {:.2e}  &  {:.2e} \\\\".format(o, best_c_1[i], best_c_2[i]))
+    print("$r^2_{{ {} }}$ & {:.3f}  &  {:.3f} \\\\".format(tuple(order), r2_1, r2_2))
